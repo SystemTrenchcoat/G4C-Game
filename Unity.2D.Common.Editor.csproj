@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{193C1B46-6E28-80FB-1A7C-8CBBF51D6A8D}</ProjectGuid>
+    <ProjectGuid>{5C78A11E-8F85-ACE9-B251-CE37DE49A391}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.2D.Common.Editor</AssemblyName>
@@ -932,35 +932,35 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.2D.Common.Runtime.csproj">
-      <Project>{C5FDA898-8D34-D24B-7632-CF4E456D107E}</Project>
+      <Project>{970C5D35-3B7E-19E8-ABF8-5CD510AB43C3}</Project>
       <Name>Unity.2D.Common.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
-      <Project>{C0609C75-5824-A021-3BAE-AF6E6032B59B}</Project>
+      <Project>{CEFD5589-A5BE-E296-8ED5-29ED52B425B0}</Project>
       <Name>Unity.2D.Sprite.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Mathematics.csproj">
-      <Project>{F55289BD-3784-0C9C-B6BF-19ABA4B12873}</Project>
+      <Project>{2F8A4A65-CD0F-E024-1508-5D7818672CA4}</Project>
       <Name>Unity.Mathematics</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Burst.csproj">
-      <Project>{53388B26-2607-22CC-EA66-6154D7664DB9}</Project>
+      <Project>{86E11CB2-4D35-73BE-D378-520E61B7D27E}</Project>
       <Name>Unity.Burst</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{4621C43C-7C8C-D740-D8D4-7780EAE6F091}</Project>
+      <Project>{BD55ADED-7B8E-1C84-AC17-D2383DD489E7}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{B5165DCD-CF11-674F-10CF-21C0AE573C10}</Project>
+      <Project>{833ECFF6-9FB7-EDF5-2794-AE036B2DD2C8}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.TestRunner.csproj">
-      <Project>{CB209772-34A8-6C79-BE9C-14DAC5A92876}</Project>
+      <Project>{E759A00C-59DE-F9AF-356D-4C650FC414A2}</Project>
       <Name>UnityEditor.TestRunner</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.TestRunner.csproj">
-      <Project>{66FCBDE9-CFD0-C020-8E2F-06A147633A88}</Project>
+      <Project>{B7A74110-384F-0B17-219E-E4751836EAEF}</Project>
       <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>
