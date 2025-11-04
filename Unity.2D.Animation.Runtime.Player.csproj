@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{413957EE-ADC3-83D4-E47D-25320E75B181}</ProjectGuid>
+    <ProjectGuid>{0EE39097-F6BF-747B-A48E-49A80C4A85F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.2D.Animation.Runtime</AssemblyName>
@@ -849,27 +849,27 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.2D.Common.Runtime.Player.csproj">
-      <Project>{A7743069-2EE3-DF95-51C5-13CAE43F0C14}</Project>
+      <Project>{E29B024E-5BD0-A503-A978-27078EA4071E}</Project>
       <Name>Unity.2D.Common.Runtime.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.InternalAPIEngineBridge.001.Player.csproj">
-      <Project>{B564AA53-2D47-E0EF-F1A0-7A25B447A78F}</Project>
+      <Project>{078C9174-D29F-DB80-1BE8-DC361FCA32BC}</Project>
       <Name>Unity.InternalAPIEngineBridge.001.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Mathematics.Player.csproj">
-      <Project>{80793BD0-A44C-BAF5-91C9-37237C557869}</Project>
+      <Project>{D3D70F97-0484-1660-60B4-761721112D90}</Project>
       <Name>Unity.Mathematics.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Burst.Player.csproj">
-      <Project>{091B006A-F8EE-E364-9F5D-71C9C47D1F9A}</Project>
+      <Project>{E7658E3A-5B83-EFDF-38EA-744946529441}</Project>
       <Name>Unity.Burst.Player</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Collections.Player.csproj">
-      <Project>{6D046874-B848-14D8-F087-74DBC6AFA7CA}</Project>
+      <Project>{55FB358E-0579-C56F-AD5B-3C3743EFBEFC}</Project>
       <Name>Unity.Collections.Player</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.Player.csproj">
-      <Project>{F1FD7DAF-15F9-40BB-A68F-29E1FE4405F3}</Project>
+      <Project>{3625F972-AFC0-8675-F129-63DA45751725}</Project>
       <Name>UnityEngine.UI.Player</Name>
     </ProjectReference>
   </ItemGroup>
