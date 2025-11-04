@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Exercise_2_loopingBall.unity
+    guid: 91e5162969e324c4e9691b5681e570ba
+  - enabled: 0
+    path: Assets/Scenes/Exercise_3_MouseInput.unity
+    guid: dd94ae22efd3f2c42857565e64e4d810
+  - enabled: 0
+    path: Assets/Scenes/Project_1_Plinko.unity
+    guid: 2d9693da28143cc4291c609c91d2a986
+  - enabled: 0
+    path: Assets/Scenes/Exercise_4_Swipe Intersection R&D.unity
+    guid: 096054f30ba3b54439e1dc3fd67cefc8
+  - enabled: 0
+    path: Assets/Scenes/Exercise_5_RandomSpawning.unity
+    guid: 748ca1a040c51f840aa39e588db9319f
+  - enabled: 0
+    path: Assets/Scenes/Exercise 6 - Game Life Cycle R&D.unity
+    guid: 220d6582085cc24479a19965d3083ace
+  - enabled: 0
+    path: Assets/Scenes/Project_2_Fruit_Ninja.unity
+    guid: 7265e1662318e2f448e9d3f043b0fc4b
+  - enabled: 0
+    path: Assets/Scenes/Exercise 9 - Agent Seek & Arrive.unity
+    guid: 2020a97d1ee34c644aca1bf6dedbd45d
+  - enabled: 0
+    path: Assets/Scenes/Exercise 10 - NPC Writeup.unity
+    guid: a2c41ea9104832745a6bb5af6d019d8d
+  - enabled: 1
+    path: Assets/Scenes/Project 4 - NPC World.unity
+    guid: db649dc9e1ac70a4389a1e5d01af10f4
+  m_configObjects: {}

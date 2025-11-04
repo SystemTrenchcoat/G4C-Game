@@ -1,0 +1,103 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|c:\\users\\jack xue\\source\\repos\\202-work-workrelatedaccess-jx\\2d project\\assets\\piranha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\piranha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\assets\\scripts\\agent_p4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\scripts\\agent_p4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\assets\\bettaspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\bettaspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\assets\\bettafish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\bettafish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\assets\\alphafish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8C100BD-9DD8-5DFC-E0BF-3B7411A735F9}|Assembly-CSharp.Player.csproj|solutionrelative:assets\\alphafish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BettaSpawner.cs",
+              "DocumentMoniker": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\BettaSpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\BettaSpawner.cs",
+              "ToolTip": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\BettaSpawner.cs",
+              "RelativeToolTip": "Assets\\BettaSpawner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T09:07:05.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BettaFish.cs",
+              "DocumentMoniker": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\BettaFish.cs",
+              "RelativeDocumentMoniker": "Assets\\BettaFish.cs",
+              "ToolTip": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\BettaFish.cs",
+              "RelativeToolTip": "Assets\\BettaFish.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwC8AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T05:08:40.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AlphaFish.cs",
+              "DocumentMoniker": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\AlphaFish.cs",
+              "RelativeDocumentMoniker": "Assets\\AlphaFish.cs",
+              "ToolTip": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\AlphaFish.cs",
+              "RelativeToolTip": "Assets\\AlphaFish.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T05:08:33.892Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "piranha.cs",
+              "DocumentMoniker": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\piranha.cs",
+              "RelativeDocumentMoniker": "Assets\\piranha.cs",
+              "ToolTip": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\piranha.cs",
+              "RelativeToolTip": "Assets\\piranha.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAswH8AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-28T05:06:23.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Agent_P4.cs",
+              "DocumentMoniker": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\Scripts\\Agent_P4.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Agent_P4.cs",
+              "ToolTip": "C:\\Users\\Jack Xue\\source\\repos\\202-work-Workrelatedaccess-JX\\2D Project\\Assets\\Scripts\\Agent_P4.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Agent_P4.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-20T02:13:31.822Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
