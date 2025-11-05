@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F55289BD-3784-0C9C-B6BF-19ABA4B12873}</ProjectGuid>
+    <ProjectGuid>{2F8A4A65-CD0F-E024-1508-5D7818672CA4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.Mathematics</AssemblyName>
@@ -993,11 +993,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{4621C43C-7C8C-D740-D8D4-7780EAE6F091}</Project>
+      <Project>{BD55ADED-7B8E-1C84-AC17-D2383DD489E7}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{B5165DCD-CF11-674F-10CF-21C0AE573C10}</Project>
+      <Project>{833ECFF6-9FB7-EDF5-2794-AE036B2DD2C8}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>
