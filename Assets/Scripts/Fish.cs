@@ -13,7 +13,7 @@ public class Fish : BoidAgent_P4
     private float scaredDuration = 4f; // time fish refuse to approach trash
 
     private SpriteRenderer sr;
-    private Color normalColor = Color.white;
+    private Color normalColor = Color.green;
 
     private void Start()
     {
@@ -127,6 +127,7 @@ public class Fish : BoidAgent_P4
     // called when hit by sound wave
     public void OnSoundWaveHit(Vector2 center)
     {
+        Debug.Log("Sound wave hit! Scared!");
         isScared = true;
         scaredTimer = 0f;
         StartCoroutine(FlashYellow());

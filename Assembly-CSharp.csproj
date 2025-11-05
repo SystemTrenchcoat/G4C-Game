@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\GameStateVisual.cs" />
     <Compile Include="Assets\Scripts\RandomSpawner.cs" />
     <Compile Include="Assets\fruit.cs" />
+    <Compile Include="Assets\SoundWave.cs" />
     <Compile Include="Assets\Scripts\BoidAgent_P4.cs" />
     <Compile Include="Assets\Scripts\Agent.cs" />
     <Compile Include="Assets\Scripts\P2FN_sliceDetect.cs" />

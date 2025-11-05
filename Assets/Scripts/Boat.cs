@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Boat : BoidAgent_P4
 {
+    public GameObject soundWavePrefab;
+
     protected override Vector2 CalculatedSteering()
     {
         // Always seek mouse position tightly
@@ -11,6 +13,15 @@ public class Boat : BoidAgent_P4
         Vector2 steering = Seek(mousePos) * 2.0f; // stronger seek
         return Vector2.ClampMagnitude(steering, maxForce);
     }
+
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
