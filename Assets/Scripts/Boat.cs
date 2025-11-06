@@ -5,12 +5,19 @@ using UnityEngine;
 public class Boat : BoidAgent_P4
 {
     public GameObject soundWavePrefab;
+    [SerializeField] private float followStrength = 8f; // higher = tighter follow
+    [SerializeField] private float damping = 5f;        // higher = less slippery
 
     protected override Vector2 CalculatedSteering()
     {
-        // Always seek mouse position tightly
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 steering = Seek(mousePos) * 2.0f; // stronger seek
+        Vector2 desiredVelocity = (mousePos - (Vector2)transform.position).normalized * maxSpeed;
+        Vector2 steering = desiredVelocity - velocity; // base steering from BoidAgent
+        steering *= followStrength;
+
+        // Apply damping to make boat stop sliding
+        velocity = Vector2.Lerp(velocity, Vector2.zero, Time.deltaTime * damping);
+
         return Vector2.ClampMagnitude(steering, maxForce);
     }
 

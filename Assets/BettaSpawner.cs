@@ -9,6 +9,7 @@ public class BettaSpawner : MonoBehaviour
     [SerializeField] private GameObject bettaPrefab;
     public float spawnInterval = 5f;
     private float timer = 0f;
+    [SerializeField] private int maxFishCount = 20; // adjustable in Inspector
 
     void Update()
     {
@@ -24,11 +25,13 @@ public class BettaSpawner : MonoBehaviour
     //create bettafish near edges randomly
     private void SpawnBetta()
     {
-        if (bettaPrefab == null)
+        // Count how many fish exist in the scene
+        int currentFishCount = FindObjectsOfType<Fish>().Length;
+        if (currentFishCount >= maxFishCount)
         {
-            Debug.LogError("Betta prefab is not assigned or destroyed!");
-            return;
+            return; // reached limit, don't spawn more
         }
+
         Vector3 spawnPos = GetRandomEdgePosition();
         Instantiate(bettaPrefab, spawnPos, Quaternion.identity);
     }
