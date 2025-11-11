@@ -7,6 +7,8 @@ public class Boat : BoidAgent_P4
     public GameObject soundWavePrefab;
     [SerializeField] private float followStrength = 8f; // higher = tighter follow
     [SerializeField] private float damping = 5f;        // higher = less slippery
+    [SerializeField] private float soundWaveCooldown = 1f;
+    private float nextSoundWaveTime = 0f;
 
     protected override Vector2 CalculatedSteering()
     {
@@ -23,9 +25,10 @@ public class Boat : BoidAgent_P4
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && Time.time >= nextSoundWaveTime)
         {
             Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
+            nextSoundWaveTime = Time.time + soundWaveCooldown; // start cooldown
         }
     }
 
