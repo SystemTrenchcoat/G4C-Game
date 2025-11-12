@@ -578,6 +578,14 @@ PrefabInstance:
       value: Trash
       objectReference: {fileID: 0}
     - target: {fileID: 8027569327592558630, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027569327592558630, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027569327592558630, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
@@ -748,7 +756,7 @@ Transform:
   m_GameObject: {fileID: 1369078333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 100, y: 50, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
