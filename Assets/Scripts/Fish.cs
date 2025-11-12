@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+using System.Collections;
+using UnityEngine;
+
 public class Fish : BoidAgent_P4
 {
     private Vector2 wanderTarget;
@@ -12,14 +15,17 @@ public class Fish : BoidAgent_P4
     private float scaredTimer = 0f;
     private float scaredDuration = 4f; // time fish refuse to approach trash
 
-    private SpriteRenderer sr;
+    // Instead of one SpriteRenderer, we use an array
+    private SpriteRenderer[] renderers;
     private Color normalColor = Color.green;
 
     private void Start()
     {
         wanderTarget = Random.insideUnitCircle.normalized * neighborRadius;
         deathTime = Random.Range(5f, 8f);
-        sr = GetComponent<SpriteRenderer>();
+
+        // get all SpriteRenderers in this fish (for both animation sprites)
+        renderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
     protected override Vector2 CalculatedSteering()
@@ -31,7 +37,7 @@ public class Fish : BoidAgent_P4
             if (scaredTimer >= scaredDuration)
             {
                 isScared = false;
-                sr.color = normalColor; // stop flashing
+                SetFishColor(normalColor); // stop flashing
             }
 
             // flee from nearest trash while scared
@@ -104,9 +110,8 @@ public class Fish : BoidAgent_P4
         {
             touchTimer += Time.deltaTime;
 
-            // Flash red while touching trash
-            if (sr != null)
-                sr.color = Color.Lerp(normalColor, Color.red, Mathf.PingPong(Time.time * 10f, 1f));
+            // Flash red on all sprite renderers
+            SetFishColor(Color.Lerp(normalColor, Color.red, Mathf.PingPong(Time.time * 10f, 1f)));
 
             if (touchTimer >= deathTime)
             {
@@ -120,7 +125,7 @@ public class Fish : BoidAgent_P4
         if (collision.GetComponent<Trash>() != null)
         {
             touchTimer = 0f;
-            if (sr != null) sr.color = normalColor;
+            SetFishColor(normalColor);
         }
     }
 
@@ -142,14 +147,24 @@ public class Fish : BoidAgent_P4
         float timer = 0f;
         while (timer < scaredDuration)
         {
-            if (sr != null)
-            {
-                sr.color = Color.Lerp(normalColor, Color.yellow, Mathf.PingPong(Time.time * 10f, 1f));
-            }
+            SetFishColor(Color.Lerp(normalColor, Color.yellow, Mathf.PingPong(Time.time * 10f, 1f)));
             timer += Time.deltaTime;
             yield return null;
         }
-        if (sr != null)
-            sr.color = normalColor;
+        SetFishColor(normalColor);
+    }
+
+    // helper to set color on all SpriteRenderers
+    private void SetFishColor(Color color)
+    {
+        if (renderers == null) return;
+        foreach (SpriteRenderer r in renderers)
+        {
+            if (r != null) 
+            {
+                r.color = color;
+            }
+        }
     }
 }
+
