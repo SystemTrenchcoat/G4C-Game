@@ -8,6 +8,7 @@ public class Boat : BoidAgent_P4
     [SerializeField] private float followStrength = 8f; // higher = tighter follow
     [SerializeField] private float damping = 5f;        // higher = less slippery
     [SerializeField] private float soundWaveCooldown = 1f;
+    [SerializeField] private SoundWaveCooldownUI cooldownUI; // link to UI bar
     private float nextSoundWaveTime = 0f;
 
     protected override Vector2 CalculatedSteering()
@@ -23,15 +24,29 @@ public class Boat : BoidAgent_P4
         return Vector2.ClampMagnitude(steering, maxForce);
     }
 
-    private void LateUpdate()
+    private void Start()
     {
-        if (Input.GetMouseButtonDown(1) && Time.time >= nextSoundWaveTime)
+        // Sync duration with bar if connected
+        if (cooldownUI != null) 
         {
-            Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
-            nextSoundWaveTime = Time.time + soundWaveCooldown; // start cooldown
+            cooldownUI.SetCooldownDuration(soundWaveCooldown);
         }
     }
 
+    private void LateUpdate()
+    {
+        // Right-click triggers soundwave and starts cooldown
+        if (Input.GetMouseButtonDown(1) && Time.time >= nextSoundWaveTime)
+        {
+            Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
+            nextSoundWaveTime = Time.time + soundWaveCooldown;
+
+            if (cooldownUI != null) 
+            {
+                cooldownUI.StartCooldown();
+            }
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

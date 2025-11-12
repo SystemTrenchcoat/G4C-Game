@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public GameObject trashPrefab;
     public BettaSpawner spawner;
+    public GameObject cooldownBarUI; // assign your cooldown bar here
 
     private float levelTimer = 0f;
     private bool levelActive = false;
@@ -40,7 +41,11 @@ public class GameManager : MonoBehaviour
         ShowStartMessage();
 
         if (spawner != null)
-            spawner.enabled = false; // disable fish spawning at start
+            spawner.enabled = false;
+
+        // cooldown bar starts hidden
+        if (cooldownBarUI != null)
+            cooldownBarUI.SetActive(false);
     }
 
     private void Update()
@@ -99,6 +104,10 @@ public class GameManager : MonoBehaviour
         levelTimer = levelTimeLimit;
         levelActive = true;
 
+        // Enable cooldown bar
+        if (cooldownBarUI != null)
+            cooldownBarUI.SetActive(true);
+
         // Enable fish spawner
         if (spawner != null)
         {
@@ -106,8 +115,19 @@ public class GameManager : MonoBehaviour
             spawner.maxFishCount = 20; // fish cap
         }
 
-        // Spawn trash for this level
+        // Spawn trash
         SpawnTrashForLevel(currentLevel);
+
+        // Recenter player at camera
+        Boat playerBoat = FindObjectOfType<Boat>();
+        if (playerBoat != null && Camera.main != null)
+        {
+            playerBoat.transform.position = new Vector3(
+                Camera.main.transform.position.x,
+                Camera.main.transform.position.y,
+                0f
+            );
+        }
 
         Debug.Log($"Level {currentLevel} started!");
     }
@@ -130,7 +150,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
         if (spawner != null)
-            spawner.enabled = false; // pause fish spawns between levels
+            spawner.enabled = false;
+
+        // Hide cooldown bar
+        if (cooldownBarUI != null)
+            cooldownBarUI.SetActive(false);
 
         currentState = (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
 
@@ -171,6 +195,10 @@ public class GameManager : MonoBehaviour
         }
 
         if (backgroundImage != null) backgroundImage.SetActive(true);
+
+        // Hide cooldown bar
+        if (cooldownBarUI != null)
+            cooldownBarUI.SetActive(false);
     }
 
     private void RestartGame()
@@ -208,12 +236,8 @@ public class GameManager : MonoBehaviour
             );
             pos.x += cam.transform.position.x;
             pos.y += cam.transform.position.y;
-            pos.z = 0f;
 
-            // Spawn the trash
             GameObject trash = Instantiate(trashPrefab, pos, Quaternion.identity);
-
-            // Scale down
             trash.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         }
     }
@@ -229,4 +253,5 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
 
