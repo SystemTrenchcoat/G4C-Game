@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -9095717837082945937, guid: 5b863b497b1af4a4c82d104b6ba1afe8, type: 3}
+  m_Sprite: {fileID: -1632483340, guid: e004951a414a824478593192605274aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 3.2, y: 3.2}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -182,3 +182,6 @@ MonoBehaviour:
   alignmentWeight: 1
   cohesionWeight: 1
   soundWavePrefab: {fileID: 5992982907534749331, guid: 33a3b7306852f0143950c5e379cd1997, type: 3}
+  followStrength: 8
+  damping: 5
+  soundWaveCooldown: 1
