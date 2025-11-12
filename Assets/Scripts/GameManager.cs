@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public enum GameState { Start, Play, LevelEnd, End } // NEW: added LevelEnd
+    public enum GameState { Start, Play, LevelEnd, End }
     public GameState currentState = GameState.Start;
 
     [Header("UI")]
@@ -17,9 +17,12 @@ public class GameManager : MonoBehaviour
     public GameObject backgroundImage;
 
     [Header("Level Settings")]
-    public float levelTimeLimit = 105f;   // 1 min 45 sec
+    public float levelTimeLimit = 105f; // 1 min 45 sec
     public int currentLevel = 1;
     public int maxLevels = 3;
+
+    [Header("References")]
+    public GameObject trashPrefab;
     public BettaSpawner spawner;
 
     private float levelTimer = 0f;
@@ -35,6 +38,9 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         ShowStartMessage();
+
+        if (spawner != null)
+            spawner.enabled = false; // disable fish spawning at start
     }
 
     private void Update()
@@ -43,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Start:
                 if (Input.GetKeyDown(KeyCode.Space))
-                    StartLevel(1); // begin level 1
+                    StartLevel(1);
                 break;
 
             case GameState.Play:
@@ -69,7 +75,7 @@ public class GameManager : MonoBehaviour
         {
             infoText.gameObject.SetActive(true);
             infoText.text =
-                "Ocean Cleanup \n\n" +
+                "Ocean Cleanup\n\n" +
                 "Move with mouse.\nRight-click: sound wave.\n" +
                 "Clean all trash before time runs out!\n\n" +
                 "Press SPACE to start.";
@@ -79,7 +85,7 @@ public class GameManager : MonoBehaviour
         if (backgroundImage != null) backgroundImage.SetActive(true);
     }
 
-    // ---------------------- LEVEL CONTROL ----------------------
+    // ---------------- LEVEL CONTROL ----------------
 
     private void StartLevel(int level)
     {
@@ -93,11 +99,17 @@ public class GameManager : MonoBehaviour
         levelTimer = levelTimeLimit;
         levelActive = true;
 
-        BettaSpawner spawner = FindObjectOfType<BettaSpawner>();
+        // Enable fish spawner
         if (spawner != null)
         {
-            spawner.maxFishCount = GetTrashCountForLevel(currentLevel);
+            spawner.enabled = true;
+            spawner.maxFishCount = 20; // fish cap
         }
+
+        // Spawn trash for this level
+        SpawnTrashForLevel(currentLevel);
+
+        Debug.Log($"Level {currentLevel} started!");
     }
 
     private void HandleLevelTimer()
@@ -105,7 +117,6 @@ public class GameManager : MonoBehaviour
         if (!levelActive) return;
 
         levelTimer -= Time.deltaTime;
-
         if (levelTimer <= 0f)
         {
             levelTimer = 0f;
@@ -117,6 +128,10 @@ public class GameManager : MonoBehaviour
     {
         levelActive = false;
         Time.timeScale = 0f;
+
+        if (spawner != null)
+            spawner.enabled = false; // pause fish spawns between levels
+
         currentState = (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
 
         if (infoText != null)
@@ -125,7 +140,7 @@ public class GameManager : MonoBehaviour
             if (currentState == GameState.LevelEnd)
                 infoText.text = $"Level {currentLevel} Complete!\nPress SPACE for next level.";
             else
-                infoText.text = "All Trash Cleaned!\nPress SPACE to Restart.";
+                infoText.text = "All Levels Complete!\nPress SPACE to Restart.";
         }
 
         if (backgroundImage != null) backgroundImage.SetActive(true);
@@ -171,14 +186,42 @@ public class GameManager : MonoBehaviour
             EndLevel();
     }
 
+    private void SpawnTrashForLevel(int level)
+    {
+        if (trashPrefab == null)
+        {
+            Debug.LogError("Trash prefab not assigned in GameManager!");
+            return;
+        }
+
+        int count = GetTrashCountForLevel(level);
+        Camera cam = Camera.main;
+        float camHeight = 2f * cam.orthographicSize;
+        float camWidth = camHeight * cam.aspect;
+
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 pos = new Vector3(
+                Random.Range(-camWidth / 2f, camWidth / 2f),
+                Random.Range(-camHeight / 2f, camHeight / 2f),
+                0f
+            );
+            pos.x += cam.transform.position.x;
+            pos.y += cam.transform.position.y;
+            pos.z = 0f;
+            Instantiate(trashPrefab, pos, Quaternion.identity);
+        }
+    }
+
     private int GetTrashCountForLevel(int level)
     {
         switch (level)
         {
             case 1: return 3;
             case 2: return 4;
-            case 3: return 6;
+            case 3: return 5;
             default: return 3;
         }
     }
 }
+

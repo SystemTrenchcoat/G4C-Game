@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{9280D70C-6070-C49C-EE90-53895CB0C9E0}</ProjectGuid>
+    <ProjectGuid>{86554A54-8935-35EC-6A44-CD6866F01E31}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.2D.IK.Editor</AssemblyName>
@@ -411,6 +411,10 @@
     </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.38f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.38f1\Editor\Data\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
@@ -925,46 +929,46 @@
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.38f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.InternalAPIEditorBridge.001.csproj">
-      <Project>{FA8EE2F2-8A88-26FE-638B-CEDFA753638E}</Project>
+      <Project>{6D2FAF84-047B-EAC2-56B7-D96E9A18A0C6}</Project>
       <Name>Unity.InternalAPIEditorBridge.001</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.InternalAPIEngineBridge.001.csproj">
-      <Project>{D2E42D4E-90BD-472A-945C-6AE729706A69}</Project>
+      <Project>{00EDC6E5-8B07-8CDA-5AE6-DC26CDAF549B}</Project>
       <Name>Unity.InternalAPIEngineBridge.001</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Common.Editor.csproj">
-      <Project>{EC39A224-A5F2-9680-FEB9-37D8E5B9DE32}</Project>
+      <Project>{5C78A11E-8F85-ACE9-B251-CE37DE49A391}</Project>
       <Name>Unity.2D.Common.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Common.Runtime.csproj">
-      <Project>{D12F7C7B-7DB8-0E32-E5FB-0434FCDDE571}</Project>
+      <Project>{970C5D35-3B7E-19E8-ABF8-5CD510AB43C3}</Project>
       <Name>Unity.2D.Common.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.IK.Runtime.csproj">
-      <Project>{335A2B86-4B1F-E9AC-B5C3-58789EFAA3AE}</Project>
+      <Project>{EEA2FFFC-DF09-FE72-5AD4-981F31C158B5}</Project>
       <Name>Unity.2D.IK.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Animation.Editor.csproj">
-      <Project>{10736BF9-A838-7755-BED3-2389E8694699}</Project>
+      <Project>{78A8E3CC-E567-F680-D151-B001C36B33C2}</Project>
       <Name>Unity.2D.Animation.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{BD55ADED-7B8E-1C84-AC17-D2383DD489E7}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{833ECFF6-9FB7-EDF5-2794-AE036B2DD2C8}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.TestRunner.csproj">
-      <Project>{4BD466AB-F102-D50D-33EF-A44AF5120A87}</Project>
+      <Project>{E759A00C-59DE-F9AF-356D-4C650FC414A2}</Project>
       <Name>UnityEditor.TestRunner</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.TestRunner.csproj">
-      <Project>{5B34E23C-1EF5-C8A8-A03A-999E6FE37D4C}</Project>
+      <Project>{B7A74110-384F-0B17-219E-E4751836EAEF}</Project>
       <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>
