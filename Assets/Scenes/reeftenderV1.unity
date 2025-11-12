@@ -229,12 +229,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2446527404258507300, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
+      propertyPath: damping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2446527404258507300, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: maxSpeed
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2446527404258507300, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: followStrength
-      value: 12
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2446527404258507300, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: soundWaveCooldown
@@ -242,11 +246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3835416918636761413, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_Size.x
-      value: 1.5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3835416918636761413, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_Size.y
-      value: 2.5
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 3835416918636761413, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
@@ -270,11 +274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5168769032637459842, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5168769032637459842, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5168769032637459842, guid: a6bffa72a097cb94fbd4e1401744158b, type: 3}
       propertyPath: m_LocalScale.z
@@ -1485,6 +1489,4 @@ SceneRoots:
   - {fileID: 689097313}
   - {fileID: 1190195834}
   - {fileID: 1215025066}
-  - {fileID: 630611318}
-  - {fileID: 72181771}
-  - {fileID: 356418770}
+  - {fileID: 4762736663902349475}

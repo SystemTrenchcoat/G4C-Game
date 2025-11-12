@@ -209,7 +209,12 @@ public class GameManager : MonoBehaviour
             pos.x += cam.transform.position.x;
             pos.y += cam.transform.position.y;
             pos.z = 0f;
-            Instantiate(trashPrefab, pos, Quaternion.identity);
+
+            // Spawn the trash
+            GameObject trash = Instantiate(trashPrefab, pos, Quaternion.identity);
+
+            // Scale down
+            trash.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         }
     }
 
