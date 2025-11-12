@@ -60,35 +60,24 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\P2FN_randomSpawn.cs" />
-    <Compile Include="Assets\Scripts\MouseLooker.cs" />
-    <Compile Include="Assets\Scripts\SpawnManager.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameStateVisual.cs" />
-    <Compile Include="Assets\Scripts\RandomSpawner.cs" />
-    <Compile Include="Assets\fruit.cs" />
-    <Compile Include="Assets\SoundWave.cs" />
     <Compile Include="Assets\Scripts\BoidAgent_P4.cs" />
+    <Compile Include="Assets\Scripts\SoundWave.cs" />
     <Compile Include="Assets\Scripts\Agent.cs" />
-    <Compile Include="Assets\Scripts\P2FN_sliceDetect.cs" />
-    <Compile Include="Assets\Scripts\tryScript.cs" />
     <Compile Include="Assets\Scripts\Removal.cs" />
-    <Compile Include="Assets\Scripts\SliceDetect.cs" />
     <Compile Include="Assets\Scripts\Fish.cs" />
-    <Compile Include="Assets\BettaSpawner.cs" />
+    <Compile Include="Assets\Scripts\Seeker.cs" />
     <Compile Include="Assets\Scripts\Boat.cs" />
     <Compile Include="Assets\Scripts\destroySound.cs" />
-    <Compile Include="Assets\Scripts\SpawnArea.cs" />
-    <Compile Include="Assets\audio.cs" />
+    <Compile Include="Assets\Scripts\Arriver.cs" />
     <Compile Include="Assets\Scripts\GameStateEnum.cs" />
-    <Compile Include="Assets\NoSliceZone.cs" />
-    <Compile Include="Assets\Seeker.cs" />
-    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Scripts\Agent_P4.cs" />
-    <Compile Include="Assets\Arriver.cs" />
     <Compile Include="Assets\Scripts\Trash.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\MouseFollower.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
+    <Compile Include="Assets\Scripts\BettaSpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

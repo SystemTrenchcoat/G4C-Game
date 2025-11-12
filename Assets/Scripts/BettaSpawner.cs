@@ -9,7 +9,7 @@ public class BettaSpawner : MonoBehaviour
     [SerializeField] private GameObject bettaPrefab;
     public float spawnInterval = 5f;
     private float timer = 0f;
-    [SerializeField] private int maxFishCount = 20; // adjustable in Inspector
+    [SerializeField] public int maxFishCount = 20; // adjustable in Inspector
 
     void Update()
     {
