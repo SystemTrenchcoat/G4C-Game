@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.Collections.Unicode;
 
 public class GameManager : MonoBehaviour
 {
@@ -93,8 +94,10 @@ public class GameManager : MonoBehaviour
             infoText.gameObject.SetActive(true);
             infoText.text =
                 "Ocean Cleanup\n\n" +
-                "Move with mouse.\nRight-click: sound wave.\n" +
+                "Move with mouse.\n\n" +
+                "Right-click: release sound wave to disperse fish.\n\n" +
                 "Clean all trash before time runs out!\n\n" +
+                "Avoid touching the fish or you will have stop and release them!\n\n" +
                 "Press SPACE to start.";
         }
 
