@@ -10,6 +10,8 @@ public class BettaSpawner : MonoBehaviour
     public float spawnInterval = 5f;
     private float timer = 0f;
     [SerializeField] public int maxFishCount = 20; // adjustable in Inspector
+    private List<List<Fish>> packs = new List<List<Fish>>();
+    private bool packsAssigned = false;
 
     void Update()
     {
@@ -22,19 +24,65 @@ public class BettaSpawner : MonoBehaviour
         }
     }
 
-    //create bettafish near edges randomly
     private void SpawnBetta()
     {
-        // Count how many fish exist in the scene
         int currentFishCount = FindObjectsOfType<Fish>().Length;
         if (currentFishCount >= maxFishCount)
-        {
-            return; // reached limit, don't spawn more
-        }
+            return;
 
         Vector3 spawnPos = GetRandomEdgePosition();
-        Instantiate(bettaPrefab, spawnPos, Quaternion.identity);
+        GameObject fishObj = Instantiate(bettaPrefab, spawnPos, Quaternion.identity);
+        Fish newFish = fishObj.GetComponent<Fish>();
+
+        // after reaching full fish count, assign packs once
+        if (!packsAssigned)
+        {
+            StartCoroutine(AssignFishPacks());
+        }
     }
+
+    private IEnumerator AssignFishPacks()
+    {
+        yield return new WaitForSeconds(1f); // wait for all fish to spawn
+
+        Fish[] allFish = FindObjectsOfType<Fish>();
+        int totalFish = allFish.Length;
+        int numPacks = Random.Range(2, 5); // between 2 and 4
+        int fishPerPack = 4;
+        int usedFish = 0;
+
+        List<Fish> fishList = new List<Fish>(allFish);
+        packs.Clear();
+
+        for (int i = 0; i < numPacks; i++)
+        {
+            if (usedFish + fishPerPack > totalFish)
+                break;
+
+            List<Fish> pack = new List<Fish>();
+            for (int j = 0; j < fishPerPack; j++)
+            {
+                pack.Add(fishList[usedFish]);
+                usedFish++;
+            }
+
+            // first fish in each pack = leader
+            pack[0].isLeader = true;
+
+            // the rest follow the leader
+            for (int k = 1; k < pack.Count; k++)
+            {
+                pack[k].leaderFish = pack[0];
+                pack[k].isLeader = false;
+            }
+
+            packs.Add(pack);
+        }
+
+        packsAssigned = true;
+        Debug.Log($"Assigned {packs.Count} fish packs");
+    }
+
 
     private Vector3 GetRandomEdgePosition()
     {

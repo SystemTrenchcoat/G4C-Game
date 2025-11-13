@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI infoText;
     public TextMeshProUGUI restartText;
+    public TextMeshProUGUI countdownText;
     public GameObject backgroundImage;
 
     [Header("Level Settings")]
@@ -41,11 +42,22 @@ public class GameManager : MonoBehaviour
         ShowStartMessage();
 
         if (spawner != null)
+        {
             spawner.enabled = false;
+        }
 
         // cooldown bar starts hidden
         if (cooldownBarUI != null)
+        {
             cooldownBarUI.SetActive(false);
+        }
+
+        // level timer starts hidden
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
+
     }
 
     private void Update()
@@ -106,7 +118,15 @@ public class GameManager : MonoBehaviour
 
         // Enable cooldown bar
         if (cooldownBarUI != null)
+        {
             cooldownBarUI.SetActive(true);
+        }
+
+        // Enable level timer
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+        }
 
         // Enable fish spawner
         if (spawner != null)
@@ -137,6 +157,13 @@ public class GameManager : MonoBehaviour
         if (!levelActive) return;
 
         levelTimer -= Time.deltaTime;
+
+        // Update countdown text
+        if (countdownText != null)
+        {
+            countdownText.text = $"{Mathf.CeilToInt(levelTimer)}s";
+        }
+
         if (levelTimer <= 0f)
         {
             levelTimer = 0f;
@@ -150,11 +177,21 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
         if (spawner != null)
+        {
             spawner.enabled = false;
+        }
 
         // Hide cooldown bar
         if (cooldownBarUI != null)
+        {
             cooldownBarUI.SetActive(false);
+        }
+
+        // Hide level timer
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(false);
+        }
 
         currentState = (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
 
