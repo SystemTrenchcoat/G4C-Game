@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Unity.Collections.Unicode;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,24 +11,30 @@ public class GameManager : MonoBehaviour
     public enum GameState { Start, Play, LevelEnd, End }
     public GameState currentState = GameState.Start;
 
-    [Header("UI")]
+    [Header("Main UI")]
     public TextMeshProUGUI infoText;
     public TextMeshProUGUI restartText;
     public TextMeshProUGUI countdownText;
     public GameObject backgroundImage;
 
+    [Header("Mash UI")]
+    public TextMeshProUGUI caughtText;          // "Fish Caught X / 5"
+    public TextMeshProUGUI mashKeyLeft;         // "A"
+    public TextMeshProUGUI mashKeyRight;        // "D"
+
     [Header("Level Settings")]
-    public float levelTimeLimit = 105f; // 1 min 45 sec
+    public float levelTimeLimit = 105f;
     public int currentLevel = 1;
     public int maxLevels = 3;
 
     [Header("References")]
     public GameObject trashPrefab;
     public BettaSpawner spawner;
-    public GameObject cooldownBarUI; // assign your cooldown bar here
+    public GameObject cooldownBarUI;
 
     private float levelTimer = 0f;
     private bool levelActive = false;
+    private Boat boat;
 
     private void Awake()
     {
@@ -39,30 +44,27 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        boat = FindObjectOfType<Boat>();
+
         Time.timeScale = 0f;
         ShowStartMessage();
 
         if (spawner != null)
-        {
             spawner.enabled = false;
-        }
 
-        // cooldown bar starts hidden
         if (cooldownBarUI != null)
-        {
             cooldownBarUI.SetActive(false);
-        }
 
-        // level timer starts hidden
         if (countdownText != null)
-        {
             countdownText.gameObject.SetActive(false);
-        }
 
+        HideMashUI();
     }
 
     private void Update()
     {
+        UpdateMashUI();
+
         switch (currentState)
         {
             case GameState.Start:
@@ -95,14 +97,16 @@ public class GameManager : MonoBehaviour
             infoText.text =
                 "Ocean Cleanup\n\n" +
                 "Move with mouse.\n\n" +
-                "Right-click: release sound wave to disperse fish.\n\n" +
-                "Clean all trash before time runs out!\n\n" +
-                "Avoid touching the fish or you will have stop and release them!\n\n" +
+                "Right-click: release sound wave.\n\n" +
+                "Avoid touching fish.\n\n" +
                 "Press SPACE to start.";
         }
 
-        if (restartText != null) restartText.gameObject.SetActive(false);
-        if (backgroundImage != null) backgroundImage.SetActive(true);
+        if (restartText != null)
+            restartText.gameObject.SetActive(false);
+
+        if (backgroundImage != null)
+            backgroundImage.SetActive(true);
     }
 
     // ---------------- LEVEL CONTROL ----------------
@@ -119,40 +123,29 @@ public class GameManager : MonoBehaviour
         levelTimer = levelTimeLimit;
         levelActive = true;
 
-        // Enable cooldown bar
         if (cooldownBarUI != null)
-        {
             cooldownBarUI.SetActive(true);
-        }
 
-        // Enable level timer
         if (countdownText != null)
-        {
             countdownText.gameObject.SetActive(true);
-        }
 
-        // Enable fish spawner
         if (spawner != null)
         {
             spawner.enabled = true;
-            spawner.maxFishCount = 20; // fish cap
+            spawner.maxFishCount = 20;
         }
 
-        // Spawn trash
-        SpawnTrashForLevel(currentLevel);
+        SpawnTrashForLevel(level);
 
-        // Recenter player at camera
-        Boat playerBoat = FindObjectOfType<Boat>();
-        if (playerBoat != null && Camera.main != null)
+        // recenter boat
+        if (boat != null && Camera.main != null)
         {
-            playerBoat.transform.position = new Vector3(
+            boat.transform.position = new Vector3(
                 Camera.main.transform.position.x,
                 Camera.main.transform.position.y,
                 0f
             );
         }
-
-        Debug.Log($"Level {currentLevel} started!");
     }
 
     private void HandleLevelTimer()
@@ -161,11 +154,8 @@ public class GameManager : MonoBehaviour
 
         levelTimer -= Time.deltaTime;
 
-        // Update countdown text
         if (countdownText != null)
-        {
-            countdownText.text = $"{Mathf.CeilToInt(levelTimer)}s";
-        }
+            countdownText.text = Mathf.CeilToInt(levelTimer) + "s";
 
         if (levelTimer <= 0f)
         {
@@ -180,47 +170,41 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
         if (spawner != null)
-        {
             spawner.enabled = false;
-        }
 
-        // Hide cooldown bar
         if (cooldownBarUI != null)
-        {
             cooldownBarUI.SetActive(false);
-        }
 
-        // Hide level timer
         if (countdownText != null)
-        {
             countdownText.gameObject.SetActive(false);
-        }
 
-        currentState = (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
+        HideMashUI();
+
+        currentState =
+            (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
 
         if (infoText != null)
         {
             infoText.gameObject.SetActive(true);
+
             if (currentState == GameState.LevelEnd)
-                infoText.text = $"Level {currentLevel} Complete!\nPress SPACE for next level.";
+                infoText.text = "Level Complete\nPress SPACE for next level";
             else
-                infoText.text = "All Levels Complete!\nPress SPACE to Restart.";
+                infoText.text = "All Levels Complete\nPress SPACE to restart";
         }
 
-        if (backgroundImage != null) backgroundImage.SetActive(true);
+        if (backgroundImage != null)
+            backgroundImage.SetActive(true);
     }
 
     private void StartNextLevel()
     {
         int nextLevel = currentLevel + 1;
+
         if (nextLevel > maxLevels)
-        {
             EndGame();
-        }
         else
-        {
             StartLevel(nextLevel);
-        }
     }
 
     private void EndGame()
@@ -231,14 +215,16 @@ public class GameManager : MonoBehaviour
         if (restartText != null)
         {
             restartText.gameObject.SetActive(true);
-            restartText.text = "All Levels Complete!\nPress SPACE to Restart";
+            restartText.text = "All Levels Complete\nPress SPACE to restart";
         }
 
-        if (backgroundImage != null) backgroundImage.SetActive(true);
+        if (backgroundImage != null)
+            backgroundImage.SetActive(true);
 
-        // Hide cooldown bar
         if (cooldownBarUI != null)
             cooldownBarUI.SetActive(false);
+
+        HideMashUI();
     }
 
     private void RestartGame()
@@ -246,6 +232,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    // ---------------- TRASH ----------------
 
     private void CheckTrashRemaining()
     {
@@ -258,11 +246,12 @@ public class GameManager : MonoBehaviour
     {
         if (trashPrefab == null)
         {
-            Debug.LogError("Trash prefab not assigned in GameManager!");
+            Debug.LogError("Trash prefab not assigned!");
             return;
         }
 
         int count = GetTrashCountForLevel(level);
+
         Camera cam = Camera.main;
         float camHeight = 2f * cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
@@ -274,6 +263,7 @@ public class GameManager : MonoBehaviour
                 Random.Range(-camHeight / 2f, camHeight / 2f),
                 0f
             );
+
             pos.x += cam.transform.position.x;
             pos.y += cam.transform.position.y;
 
@@ -284,14 +274,62 @@ public class GameManager : MonoBehaviour
 
     private int GetTrashCountForLevel(int level)
     {
-        switch (level)
+        if (level == 1) return 3;
+        if (level == 2) return 4;
+        if (level == 3) return 6;
+        return 3;
+    }
+
+    // ---------------- MASH UI ----------------
+
+    private void UpdateMashUI()
+    {
+        if (boat == null) return;
+
+        int count = boat.GetCaughtFishCount();
+
+        if (count == 0)
         {
-            case 1: return 3;
-            case 2: return 4;
-            case 3: return 5;
-            default: return 3;
+            HideMashUI();
+            return;
+        }
+
+        // Show caught X / maxCaughtFish
+        if (caughtText != null)
+        {
+            caughtText.gameObject.SetActive(true);
+            caughtText.text = "Fish Caught " + count + " / " + boat.maxCaughtFish;
+            caughtText.alpha = 0.45f; // semi-transparent
+        }
+
+        // Show mash keys near boat, always upright
+        if (mashKeyLeft != null && mashKeyRight != null)
+        {
+            mashKeyLeft.gameObject.SetActive(true);
+            mashKeyRight.gameObject.SetActive(true);
+
+            Vector3 boatPos = boat.transform.position;
+
+            // Position relative to boat in world space
+            mashKeyLeft.transform.position = boatPos + new Vector3(-1.2f, 0f, 0f);
+            mashKeyRight.transform.position = boatPos + new Vector3(1.2f, 0f, 0f);
+
+            // Keep mash keys upright
+            mashKeyLeft.transform.rotation = Quaternion.identity;
+            mashKeyRight.transform.rotation = Quaternion.identity;
         }
     }
+
+
+    private void HideMashUI()
+    {
+        if (caughtText != null)
+            caughtText.gameObject.SetActive(false);
+
+        if (mashKeyLeft != null)
+            mashKeyLeft.gameObject.SetActive(false);
+
+        if (mashKeyRight != null)
+            mashKeyRight.gameObject.SetActive(false);
+    }
 }
-
-
