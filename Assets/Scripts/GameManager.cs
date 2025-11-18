@@ -110,7 +110,6 @@ public class GameManager : MonoBehaviour
     }
 
     // ---------------- LEVEL CONTROL ----------------
-
     private void StartLevel(int level)
     {
         currentLevel = level;
@@ -284,42 +283,52 @@ public class GameManager : MonoBehaviour
 
     private void UpdateMashUI()
     {
-        if (boat == null) return;
+        if (boat == null)
+            return;
 
         int count = boat.GetCaughtFishCount();
 
+        // If no fish, hide everything and exit
         if (count == 0)
         {
             HideMashUI();
             return;
         }
 
-        // Show caught X / maxCaughtFish
+        // Show text "Fish Caught X / Y"
         if (caughtText != null)
         {
             caughtText.gameObject.SetActive(true);
             caughtText.text = "Fish Caught " + count + " / " + boat.maxCaughtFish;
-            caughtText.alpha = 0.45f; // semi-transparent
         }
 
-        // Show mash keys near boat, always upright
-        if (mashKeyLeft != null && mashKeyRight != null)
+        // Show mash keys
+        ShowMashKeys();
+
+        // Position keys near the boat
+        Vector3 boatPos = boat.transform.position;
+
+        if (mashKeyLeft != null)
         {
-            mashKeyLeft.gameObject.SetActive(true);
-            mashKeyRight.gameObject.SetActive(true);
-
-            Vector3 boatPos = boat.transform.position;
-
-            // Position relative to boat in world space
-            mashKeyLeft.transform.position = boatPos + new Vector3(-1.2f, 0f, 0f);
-            mashKeyRight.transform.position = boatPos + new Vector3(1.2f, 0f, 0f);
-
-            // Keep mash keys upright
+            mashKeyLeft.transform.position = boatPos + new Vector3(-2.5f, 0f, 0f);
             mashKeyLeft.transform.rotation = Quaternion.identity;
+        }
+
+        if (mashKeyRight != null)
+        {
+            mashKeyRight.transform.position = boatPos + new Vector3(2.5f, 0f, 0f);
             mashKeyRight.transform.rotation = Quaternion.identity;
         }
     }
 
+    private void ShowMashKeys()
+    {
+        if (mashKeyLeft != null)
+            mashKeyLeft.gameObject.SetActive(true);
+
+        if (mashKeyRight != null)
+            mashKeyRight.gameObject.SetActive(true);
+    }
 
     private void HideMashUI()
     {

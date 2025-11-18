@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Boat : BoidAgent_P4
 {
@@ -31,7 +28,7 @@ public class Boat : BoidAgent_P4
     private List<Fish> caughtFish = new List<Fish>();
 
     // -----------------------
-    // Movement (unchanged)
+    // Movement
     // -----------------------
     protected override Vector2 CalculatedSteering()
     {
@@ -54,7 +51,7 @@ public class Boat : BoidAgent_P4
     private void LateUpdate()
     {
         // Soundwave right-click
-        if (Input.GetMouseButtonDown(1) && Time.time >= nextSoundWaveTime)
+        if (Input.GetMouseButtonDown(0) && Time.time >= nextSoundWaveTime)
         {
             Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
             nextSoundWaveTime = Time.time + soundWaveCooldown;
