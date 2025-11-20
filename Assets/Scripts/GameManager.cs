@@ -18,9 +18,9 @@ public class GameManager : MonoBehaviour
     public GameObject backgroundImage;
 
     [Header("Mash UI")]
-    public TextMeshProUGUI caughtText;          // "Fish Caught X / 5"
-    public TextMeshProUGUI mashKeyLeft;         // "A"
-    public TextMeshProUGUI mashKeyRight;        // "D"
+    public TextMeshProUGUI caughtText;
+    public TextMeshProUGUI mashKeyLeft;
+    public TextMeshProUGUI mashKeyRight;
 
     [Header("Level Settings")]
     public float levelTimeLimit = 105f;
@@ -31,6 +31,15 @@ public class GameManager : MonoBehaviour
     public GameObject trashPrefab;
     public BettaSpawner spawner;
     public GameObject cooldownBarUI;
+
+    // NEW --- SCORE SYSTEM ---
+    [Header("NEW Score UI")]
+    public TextMeshProUGUI scoreText; // Assign in Inspector
+    private int totalScore = 0;        // Max 300
+    private int levelScore = 0;        // Max 100 per level
+    private int pendingFishPenalty = 0;
+    private int trashCountThisLevel = 0;
+    // NEW END ---
 
     private float levelTimer = 0f;
     private bool levelActive = false;
@@ -59,6 +68,8 @@ public class GameManager : MonoBehaviour
             countdownText.gameObject.SetActive(false);
 
         HideMashUI();
+
+        UpdateScoreUI();
     }
 
     private void Update()
@@ -145,6 +156,12 @@ public class GameManager : MonoBehaviour
                 0f
             );
         }
+
+        // --- RESET LEVEL SCORE DATA ---
+        levelScore = 0;
+        pendingFishPenalty = 0;
+        trashCountThisLevel = GetTrashCountForLevel(level);
+        UpdateScoreUI();
     }
 
     private void HandleLevelTimer()
@@ -182,14 +199,33 @@ public class GameManager : MonoBehaviour
         currentState =
             (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
 
+        // --- APPLY FISH PENALTY ---
+        ApplyFishPenalty();
+        totalScore += levelScore;
+        UpdateScoreUI();
+
         if (infoText != null)
         {
             infoText.gameObject.SetActive(true);
 
             if (currentState == GameState.LevelEnd)
-                infoText.text = "Level Complete\nPress SPACE for next level";
+            {
+                infoText.text =
+                    "Level Complete\n" +
+                    "Level Score: " + levelScore +
+                    "\nTotal Score: " + totalScore +
+                    "\nPress SPACE for next level";
+            }
             else
-                infoText.text = "All Levels Complete\nPress SPACE to restart";
+            {
+                float percent = (totalScore / 300f) * 100f;
+
+                infoText.text =
+                    "All Levels Complete\n" +
+                    "Total Score: " + totalScore + " / 300\n" +
+                    "Final Rating: " + percent.ToString("F0") + "%" +
+                    "\nPress SPACE to restart";
+            }
         }
 
         if (backgroundImage != null)
@@ -213,8 +249,14 @@ public class GameManager : MonoBehaviour
 
         if (restartText != null)
         {
+            float percent = (totalScore / 300f) * 100f;
+
             restartText.gameObject.SetActive(true);
-            restartText.text = "All Levels Complete\nPress SPACE to restart";
+            restartText.text =
+                "All Levels Complete\n" +
+                "Total Score: " + totalScore + " / 300\n" +
+                "Final Rating: " + percent.ToString("F0") + "%" +
+                "\nPress SPACE to restart";
         }
 
         if (backgroundImage != null)
@@ -288,24 +330,20 @@ public class GameManager : MonoBehaviour
 
         int count = boat.GetCaughtFishCount();
 
-        // If no fish, hide everything and exit
         if (count == 0)
         {
             HideMashUI();
             return;
         }
 
-        // Show text "Fish Caught X / Y"
         if (caughtText != null)
         {
             caughtText.gameObject.SetActive(true);
             caughtText.text = "Fish Caught " + count + " / " + boat.maxCaughtFish;
         }
 
-        // Show mash keys
         ShowMashKeys();
 
-        // Position keys near the boat
         Vector3 boatPos = boat.transform.position;
 
         if (mashKeyLeft != null)
@@ -341,4 +379,51 @@ public class GameManager : MonoBehaviour
         if (mashKeyRight != null)
             mashKeyRight.gameObject.SetActive(false);
     }
+
+    // ============================================
+    // --- SCORE SYSTEM
+    // ============================================
+
+    public void OnTrashCollected()
+    {
+        if (trashCountThisLevel <= 0) return;
+
+        int pointsPerTrash = 100 / trashCountThisLevel;
+        levelScore += pointsPerTrash;
+
+        UpdateScoreUI();
+    }
+
+    public void OnFishCaught()
+    {
+        pendingFishPenalty += 20;
+        UpdateScoreUI();
+    }
+
+    public void OnFishReleased()
+    {
+        pendingFishPenalty -= 20;
+        if (pendingFishPenalty < 0) pendingFishPenalty = 0;
+
+        UpdateScoreUI();
+    }
+
+    private void ApplyFishPenalty()
+    {
+        levelScore -= pendingFishPenalty;
+        if (levelScore < 0) levelScore = 0;
+        pendingFishPenalty = 0;
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText == null) return;
+
+        scoreText.gameObject.SetActive(currentState == GameState.Play);
+
+        scoreText.text =
+            "Score: " + (totalScore + levelScore) +
+            "  Pending Penalty: - " + pendingFishPenalty;
+    }
 }
+

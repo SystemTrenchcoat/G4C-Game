@@ -117,6 +117,8 @@ public class Boat : BoidAgent_P4
         fish.enabled = true;
         fish.isLeader = false;
         fish.leaderFish = null;
+
+        GameManager.instance.OnFishReleased();
     }
 
     // -----------------------
@@ -135,6 +137,8 @@ public class Boat : BoidAgent_P4
         if (trash != null)
         {
             Destroy(trash.gameObject);
+
+            GameManager.instance.OnTrashCollected();
         }
     }
 
@@ -152,6 +156,8 @@ public class Boat : BoidAgent_P4
         );
 
         caughtFish.Add(fish);
+
+        GameManager.instance.OnFishCaught();
     }
 
     // -----------------------
