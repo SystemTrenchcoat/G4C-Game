@@ -32,7 +32,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Exercise 10 - NPC Writeup.unity
     guid: a2c41ea9104832745a6bb5af6d019d8d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Project 4 - NPC World.unity
     guid: db649dc9e1ac70a4389a1e5d01af10f4
+  - enabled: 1
+    path: Assets/Scenes/reeftenderV1.unity
+    guid: 5bcdbbe4c72d3f349a1d5eb810d884b4
   m_configObjects: {}
