@@ -21,6 +21,12 @@ public class Fish : BoidAgent_P4
     public Fish leaderFish = null;
     public float followDistance = 2f;
 
+    // boundary avoidance added
+    [SerializeField] private Vector2 worldMin = new Vector2(-20, -12);   
+    [SerializeField] private Vector2 worldMax = new Vector2(20, 12);     
+    [SerializeField] private float boundaryForce = 10f;                  
+    [SerializeField] private float boundaryPadding = 2f;                 
+
     private void Start()
     {
         wanderTarget = Random.insideUnitCircle.normalized * neighborRadius;
@@ -45,10 +51,10 @@ public class Fish : BoidAgent_P4
             Trash nearestTrash = FindNearestTrash(6f);
             if (nearestTrash != null)
             {
-                return Flee(nearestTrash.transform.position);
+                return Flee(nearestTrash.transform.position) + BoundaryAvoidance();
             }
 
-            return Wander();
+            return Wander() + BoundaryAvoidance();
         }
 
         // If follower, follow its leader
@@ -82,7 +88,7 @@ public class Fish : BoidAgent_P4
                 );
             }
 
-            return desiredForce;
+            return desiredForce + BoundaryAvoidance();
         }
 
         // Leader normal behavior
@@ -97,6 +103,8 @@ public class Fish : BoidAgent_P4
         {
             steering += Wander();
         }
+
+        steering += BoundaryAvoidance();
 
         return Vector2.ClampMagnitude(steering, maxForce);
     }
@@ -137,6 +145,35 @@ public class Fish : BoidAgent_P4
     {
         Vector2 desired = ((Vector2)transform.position - threatPosition).normalized * maxSpeed;
         return desired - velocity;
+    }
+
+    private Vector2 BoundaryAvoidance()
+    {
+        Vector2 pos = transform.position;
+        Vector2 force = Vector2.zero;
+
+        if (pos.x < worldMin.x + boundaryPadding) 
+        {
+            force.x = boundaryForce;        
+        }
+
+        if (pos.x > worldMax.x - boundaryPadding) 
+        {
+            force.x = -boundaryForce;        
+        }
+
+        if (pos.y < worldMin.y + boundaryPadding) 
+        {
+            force.y = boundaryForce;        
+        }
+
+        if (pos.y > worldMax.y - boundaryPadding) 
+        { 
+            force.y = -boundaryForce;        
+        }
+
+
+        return force;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

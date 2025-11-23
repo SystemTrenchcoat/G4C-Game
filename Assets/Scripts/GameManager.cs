@@ -106,11 +106,17 @@ public class GameManager : MonoBehaviour
         {
             infoText.gameObject.SetActive(true);
             infoText.text =
-                "Ocean Cleanup\n\n" +
-                "Move with mouse.\n\n" +
-                "Left-click: release sound wave to disperse fish.\n\n" +
-                "Avoid touching fish.\n\n" +
-                "Press SPACE to start.";
+                "ReefTender – Protect What Remains\n\n" +
+                "The reef you grew up beside is struggling. As part of a local restoration\n" +
+                "group, you patrol these waters to collect waste and safeguard the sea life\n" +
+                "that still thrives here. Every piece of trash you remove brings the reef\n" +
+                "one step closer to recovery.\n\n" +
+                "CONTROLS\n" +
+                "Move with the mouse.\n" +
+                "Left-click to send out a pulse to steer fish away.\n" +
+                "Touching fish captures them—this slows your boat and costs points if not released.\n" +
+                "Tap A and D rapidly to release captured fish.\n" +
+                "Press SPACE to start the mission.";
         }
 
         if (restartText != null)

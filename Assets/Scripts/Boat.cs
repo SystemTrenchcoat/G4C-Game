@@ -27,13 +27,29 @@ public class Boat : BoidAgent_P4
     private int pressCounter = 0;
     private List<Fish> caughtFish = new List<Fish>();
 
-    // -----------------------
-    // Movement
-    // -----------------------
+    // speed multiplier
+    private float GetSpeedMultiplier()
+    {
+        int fish = caughtFish.Count;
+
+        // clamps to avoid negative
+        fish = Mathf.Min(fish, 5);
+
+        // 1.0 at 0 fish, 0.01 at 5 fish
+        float mult = 1f - (0.99f * (fish / 5f)); // NEW
+
+        return mult;
+    }
+
     protected override Vector2 CalculatedSteering()
     {
+        // adjust maxSpeed based on caught fish
+        float speedMult = GetSpeedMultiplier();
+        float adjustedMaxSpeed = maxSpeed * speedMult;
+
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 desiredVelocity = (mousePos - (Vector2)transform.position).normalized * maxSpeed;
+        Vector2 desiredVelocity = (mousePos - (Vector2)transform.position).normalized * adjustedMaxSpeed;
+
         Vector2 steering = desiredVelocity - velocity;
         steering *= followStrength;
 

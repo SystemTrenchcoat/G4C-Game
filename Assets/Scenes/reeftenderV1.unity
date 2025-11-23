@@ -2002,7 +2002,7 @@ PrefabInstance:
       objectReference: {fileID: 990606222}
     - target: {fileID: 6281787947629779147, guid: c51aec6849d6837458ecc5bb0029b11a, type: 3}
       propertyPath: slowPerFish
-      value: 0.2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6281787947629779147, guid: c51aec6849d6837458ecc5bb0029b11a, type: 3}
       propertyPath: soundWavePrefab
@@ -2191,6 +2191,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_margin.w
+      value: -387.9897
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_margin.x
+      value: -279.7106
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_margin.y
+      value: -398.2253
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_margin.z
+      value: -293.45352
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_lineSpacing
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390289765884969303, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10.434452
+      objectReference: {fileID: 0}
     - target: {fileID: 3759085822674830572, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2271,9 +2299,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5986306664031811210, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036080693955818867, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_lineSpacing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6257201792237651508, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187404304419153528, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8724877757991259954, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_UiScaleMode
