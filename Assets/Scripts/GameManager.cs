@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             infoText.text =
                 "Ocean Cleanup\n\n" +
                 "Move with mouse.\n\n" +
-                "Right-click: release sound wave.\n\n" +
+                "Left-click: release sound wave to disperse fish.\n\n" +
                 "Avoid touching fish.\n\n" +
                 "Press SPACE to start.";
         }
