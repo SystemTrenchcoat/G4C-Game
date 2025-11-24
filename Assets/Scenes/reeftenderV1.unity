@@ -2025,7 +2025,7 @@ PrefabInstance:
     - target: {fileID: 6281787947629779147, guid: c51aec6849d6837458ecc5bb0029b11a, type: 3}
       propertyPath: soundWavePrefab
       value: 
-      objectReference: {fileID: 5992982907534749331, guid: 33a3b7306852f0143950c5e379cd1997, type: 3}
+      objectReference: {fileID: 6329721165145150216, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
     - target: {fileID: 6966810760229860442, guid: c51aec6849d6837458ecc5bb0029b11a, type: 3}
       propertyPath: m_Name
       value: Boat
@@ -2123,6 +2123,10 @@ PrefabInstance:
     - target: {fileID: 6329721165145150216, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
       propertyPath: m_Name
       value: Sonic Wave 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6329721165145150216, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7855099633596915223, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
       propertyPath: m_LocalPosition.x
