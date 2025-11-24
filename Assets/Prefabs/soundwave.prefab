@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a253cf39143b8bc4090cf0c0fe32d676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expandSpeed: 5
-  maxRadius: 8
+  expandSpeed: 7
+  maxRadius: 12
   duration: 2
 --- !u!50 &4529930801441396355
 Rigidbody2D:
