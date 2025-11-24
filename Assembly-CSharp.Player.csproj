@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\keymashUI.cs" />
+    <Compile Include="Assets\TrashSpawner.cs" />
     <Compile Include="Assets\Scripts\SoundWaveCooldownUI.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameStateVisual.cs" />

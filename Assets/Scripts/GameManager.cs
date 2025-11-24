@@ -23,23 +23,22 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI mashKeyRight;
 
     [Header("Level Settings")]
-    public float levelTimeLimit = 105f;
+    public float levelTimeLimit = 90f; // Changed: fixed 90 sec
     public int currentLevel = 1;
-    public int maxLevels = 3;
 
     [Header("References")]
     public GameObject trashPrefab;
     public BettaSpawner spawner;
     public GameObject cooldownBarUI;
 
-    // NEW --- SCORE SYSTEM ---
-    [Header("NEW Score UI")]
-    public TextMeshProUGUI scoreText; // Assign in Inspector
-    private int totalScore = 0;        // Max 300
-    private int levelScore = 0;        // Max 100 per level
-    private int pendingFishPenalty = 0;
-    private int trashCountThisLevel = 0;
-    // NEW END ---
+    public TrashSpawner trashSpawner; // Changed: new reference to TrashSpawner
+
+    [Header("Score UI")]
+    public TextMeshProUGUI scoreText;
+    private float totalScore = 0f;         // Changed
+    private float levelScore = 0f;         // Changed
+    private float pendingFishPenalty = 0f; // Changed
+    private int trashCountThisLevel = 0;   // Changed
 
     private float levelTimer = 0f;
     private bool levelActive = false;
@@ -68,7 +67,6 @@ public class GameManager : MonoBehaviour
             countdownText.gameObject.SetActive(false);
 
         HideMashUI();
-
         UpdateScoreUI();
     }
 
@@ -91,6 +89,9 @@ public class GameManager : MonoBehaviour
             case GameState.LevelEnd:
                 if (Input.GetKeyDown(KeyCode.Space))
                     StartNextLevel();
+
+                if (Input.GetKeyDown(KeyCode.Escape)) // Changed
+                    EndRun();
                 break;
 
             case GameState.End:
@@ -106,7 +107,7 @@ public class GameManager : MonoBehaviour
         {
             infoText.gameObject.SetActive(true);
             infoText.text =
-                "ReefTender – Protect What Remains\n\n" +
+                "ReefTender - Protect What Remains\n\n" +
                 "The reef you grew up beside is struggling. As part of a local restoration\n" +
                 "group, you patrol these waters to collect waste and safeguard the sea life\n" +
                 "that still thrives here. Every piece of trash you remove brings the reef\n" +
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour
                 "CONTROLS\n" +
                 "Move with the mouse.\n" +
                 "Left-click to send out a pulse to steer fish away.\n" +
-                "Touching fish captures them—this slows your boat and costs points if not released.\n" +
+                "Touching fish captures them - this slows your boat and costs points if not released.\n" +
                 "Tap A and D rapidly to release captured fish.\n" +
                 "Press SPACE to start the mission.";
         }
@@ -151,7 +152,20 @@ public class GameManager : MonoBehaviour
             spawner.maxFishCount = 20;
         }
 
-        SpawnTrashForLevel(level);
+        // Remove all fish from previous level   // Changed
+        Fish[] allFish = FindObjectsOfType<Fish>();
+        foreach (Fish f in allFish) Destroy(f.gameObject);
+
+        // Remove all trash from previous level   // Changed
+        if (trashSpawner != null)
+            trashSpawner.ClearAllTrash();
+
+        // Calculate trash count for level
+        trashCountThisLevel = GetTrashCountForLevel(level); // Changed
+
+        // Spawn trash using TrashSpawner
+        if (trashSpawner != null) // Changed
+            trashSpawner.SpawnTrash(trashCountThisLevel);
 
         // recenter boat
         if (boat != null && Camera.main != null)
@@ -163,10 +177,9 @@ public class GameManager : MonoBehaviour
             );
         }
 
-        // --- RESET LEVEL SCORE DATA ---
-        levelScore = 0;
-        pendingFishPenalty = 0;
-        trashCountThisLevel = GetTrashCountForLevel(level);
+        // Reset level score
+        levelScore = 0f;         // Changed
+        pendingFishPenalty = 0f; // Changed
         UpdateScoreUI();
     }
 
@@ -202,36 +215,27 @@ public class GameManager : MonoBehaviour
 
         HideMashUI();
 
-        currentState =
-            (currentLevel < maxLevels) ? GameState.LevelEnd : GameState.End;
-
-        // --- APPLY FISH PENALTY ---
+        // Apply fish penalties   // Changed
         ApplyFishPenalty();
-        totalScore += levelScore;
-        UpdateScoreUI();
+        totalScore += levelScore; // Changed
+
+        // Destroy fish   // Changed
+        Fish[] allFish = FindObjectsOfType<Fish>();
+        foreach (Fish f in allFish) Destroy(f.gameObject);
+
+        // Destroy trash    // Changed
+        if (trashSpawner != null)
+            trashSpawner.ClearAllTrash();
+
+        currentState = GameState.LevelEnd;
 
         if (infoText != null)
         {
             infoText.gameObject.SetActive(true);
-
-            if (currentState == GameState.LevelEnd)
-            {
-                infoText.text =
-                    "Level Complete\n" +
-                    "Level Score: " + levelScore +
-                    "\nTotal Score: " + totalScore +
-                    "\nPress SPACE for next level";
-            }
-            else
-            {
-                float percent = (totalScore / 300f) * 100f;
-
-                infoText.text =
-                    "All Levels Complete\n" +
-                    "Total Score: " + totalScore + " / 300\n" +
-                    "Final Rating: " + percent.ToString("F0") + "%" +
-                    "\nPress SPACE to restart";
-            }
+            infoText.text =
+                "#" + currentLevel + " levels completed\n" +  // Changed
+                "Total Score: " + totalScore.ToString("F2") + "\n" +
+                "Press SPACE for next level or ESC to end run";
         }
 
         if (backgroundImage != null)
@@ -240,29 +244,25 @@ public class GameManager : MonoBehaviour
 
     private void StartNextLevel()
     {
-        int nextLevel = currentLevel + 1;
-
-        if (nextLevel > maxLevels)
-            EndGame();
-        else
-            StartLevel(nextLevel);
+        StartLevel(currentLevel + 1); // Changed: infinite levels
     }
 
-    private void EndGame()
+    // ---------------- END RUN ----------------
+    private void EndRun()
     {
         currentState = GameState.End;
         Time.timeScale = 0f;
 
+        if (infoText != null)
+            infoText.gameObject.SetActive(false); // Changed: hide LevelEnd text
+
         if (restartText != null)
         {
-            float percent = (totalScore / 300f) * 100f;
-
             restartText.gameObject.SetActive(true);
             restartText.text =
-                "All Levels Complete\n" +
-                "Total Score: " + totalScore + " / 300\n" +
-                "Final Rating: " + percent.ToString("F0") + "%" +
-                "\nPress SPACE to restart";
+                "#" + currentLevel + " levels completed\n" + // Changed
+                "Total Score: " + totalScore.ToString("F2") + "\n" +
+                "Press SPACE to restart";
         }
 
         if (backgroundImage != null)
@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // ---------------- TRASH ----------------
+    // ---------------- TRASH LOGIC ----------------
 
     private void CheckTrashRemaining()
     {
@@ -289,42 +289,14 @@ public class GameManager : MonoBehaviour
             EndLevel();
     }
 
-    private void SpawnTrashForLevel(int level)
+    private int GetTrashCountForLevel(int level) // Changed: infinite pattern
     {
-        if (trashPrefab == null)
-        {
-            Debug.LogError("Trash prefab not assigned!");
-            return;
-        }
+        if (level <= 0) return 0;
 
-        int count = GetTrashCountForLevel(level);
+        int group = (level - 1) / 3;
+        int position = (level - 1) % 3;
 
-        Camera cam = Camera.main;
-        float camHeight = 2f * cam.orthographicSize;
-        float camWidth = camHeight * cam.aspect;
-
-        for (int i = 0; i < count; i++)
-        {
-            Vector3 pos = new Vector3(
-                Random.Range(-camWidth / 2f, camWidth / 2f),
-                Random.Range(-camHeight / 2f, camHeight / 2f),
-                0f
-            );
-
-            pos.x += cam.transform.position.x;
-            pos.y += cam.transform.position.y;
-
-            GameObject trash = Instantiate(trashPrefab, pos, Quaternion.identity);
-            trash.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        }
-    }
-
-    private int GetTrashCountForLevel(int level)
-    {
-        if (level == 1) return 3;
-        if (level == 2) return 4;
-        if (level == 3) return 6;
-        return 3;
+        return 3 + group * 4 + position;
     }
 
     // ---------------- MASH UI ----------------
@@ -386,15 +358,13 @@ public class GameManager : MonoBehaviour
             mashKeyRight.gameObject.SetActive(false);
     }
 
-    // ============================================
-    // --- SCORE SYSTEM
-    // ============================================
+    // ---------------- SCORE SYSTEM ----------------
 
     public void OnTrashCollected()
     {
         if (trashCountThisLevel <= 0) return;
 
-        int pointsPerTrash = 100 / trashCountThisLevel;
+        float pointsPerTrash = 10f / trashCountThisLevel; // Changed
         levelScore += pointsPerTrash;
 
         UpdateScoreUI();
@@ -402,14 +372,15 @@ public class GameManager : MonoBehaviour
 
     public void OnFishCaught()
     {
-        pendingFishPenalty += 20;
+        pendingFishPenalty += 2f; // Changed
         UpdateScoreUI();
     }
 
     public void OnFishReleased()
     {
-        pendingFishPenalty -= 20;
-        if (pendingFishPenalty < 0) pendingFishPenalty = 0;
+        pendingFishPenalty -= 2f;
+        if (pendingFishPenalty < 0f)
+            pendingFishPenalty = 0f;
 
         UpdateScoreUI();
     }
@@ -417,8 +388,8 @@ public class GameManager : MonoBehaviour
     private void ApplyFishPenalty()
     {
         levelScore -= pendingFishPenalty;
-        if (levelScore < 0) levelScore = 0;
-        pendingFishPenalty = 0;
+        if (levelScore < 0f) levelScore = 0f;
+        pendingFishPenalty = 0f;
     }
 
     private void UpdateScoreUI()
@@ -428,8 +399,10 @@ public class GameManager : MonoBehaviour
         scoreText.gameObject.SetActive(currentState == GameState.Play);
 
         scoreText.text =
-            "Score: " + (totalScore + levelScore) +
-            "  Pending Penalty: - " + pendingFishPenalty;
+            "Score: " + (totalScore + levelScore).ToString("F2") +
+            "  Pending Penalty: - " + pendingFishPenalty.ToString("F2");
     }
 }
+
+
 
