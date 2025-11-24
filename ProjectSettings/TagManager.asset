@@ -8,6 +8,8 @@ TagManager:
   - fruit
   - ball
   - blade
+  - Trash
+  - Fish
   layers:
   - Default
   - TransparentFX
