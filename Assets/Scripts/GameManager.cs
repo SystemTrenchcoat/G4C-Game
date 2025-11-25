@@ -114,7 +114,8 @@ public class GameManager : MonoBehaviour
                 "one step closer to recovery.\n\n" +
                 "CONTROLS\n" +
                 "Move with the mouse.\n" +
-                "Left-click to send out a pulse to steer fish away.\n" +
+                "Left-click to send out a pulse to steer fish away - fish will flash red and dies when touching trash\n" +
+                "Stay contact with trash to pick it up - trash will flash yellow during pick up.\n" +
                 "Touching fish captures them - this slows your boat and costs points if not released.\n" +
                 "Tap A and D rapidly to release captured fish.\n" +
                 "Press SPACE to start the mission.";

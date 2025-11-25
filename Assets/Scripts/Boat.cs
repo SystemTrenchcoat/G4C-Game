@@ -152,9 +152,7 @@ public class Boat : BoidAgent_P4
         Trash trash = collision.GetComponent<Trash>();
         if (trash != null)
         {
-            Destroy(trash.gameObject);
-
-            GameManager.instance.OnTrashCollected();
+            return;
         }
     }
 

@@ -10,73 +10,58 @@ public class Fish : BoidAgent_P4
     private float deathTime;
     private bool isScared = false;
     private float scaredTimer = 0f;
-    private float scaredDuration = 4f; // time fish refuse to approach trash
+    private float scaredDuration = 4f;
+    private Vector2 soundWaveOrigin;
 
-    // Instead of one SpriteRenderer, we use an array
     private SpriteRenderer[] renderers;
-    private Color normalColor = Color.green;
+    private Color[] defaultColors;
+    private Coroutine flashCoroutine;
 
-    // pack section
     public bool isLeader = false;
     public Fish leaderFish = null;
     public float followDistance = 2f;
 
-    // boundary avoidance added
-    [SerializeField] private Vector2 worldMin = new Vector2(-20, -12);   
-    [SerializeField] private Vector2 worldMax = new Vector2(20, 12);     
-    [SerializeField] private float boundaryForce = 10f;                  
-    [SerializeField] private float boundaryPadding = 2f;                 
+    [SerializeField] private Vector2 worldMin = new Vector2(-20, -12);
+    [SerializeField] private Vector2 worldMax = new Vector2(20, 12);
+    [SerializeField] private float boundaryForce = 10f;
+    [SerializeField] private float boundaryPadding = 2f;
 
     private void Start()
     {
         wanderTarget = Random.insideUnitCircle.normalized * neighborRadius;
         deathTime = Random.Range(5f, 8f);
 
-        // get all SpriteRenderers in this fish (for both animation sprites)
+        // get all SpriteRenderers and store default colors
         renderers = GetComponentsInChildren<SpriteRenderer>();
+        defaultColors = new Color[renderers.Length];
+        for (int i = 0; i < renderers.Length; i++)
+            defaultColors[i] = renderers[i].color;
     }
 
     protected override Vector2 CalculatedSteering()
     {
-        // If scared, run away like before
+        // ------------------ Scared behavior ------------------
         if (isScared)
         {
             scaredTimer += Time.deltaTime;
             if (scaredTimer >= scaredDuration)
             {
                 isScared = false;
-                SetFishColor(normalColor);
+                SetFishColorDefault();
             }
 
-            Trash nearestTrash = FindNearestTrash(6f);
-            if (nearestTrash != null)
-            {
-                return Flee(nearestTrash.transform.position) + BoundaryAvoidance();
-            }
-
-            return Wander() + BoundaryAvoidance();
+            // flee directly from soundwave origin
+            return FleeFromSoundWave() * 1.5f + BoundaryAvoidance();
         }
 
-        // If follower, follow its leader
+        // ------------------ Follower behavior ------------------
         if (!isLeader && leaderFish != null)
         {
             float dist = Vector2.Distance(transform.position, leaderFish.transform.position);
-
-            // stay close but not too rigid — slight wander around leader
-            Vector2 offset = (Vector2)(leaderFish.transform.position) + Random.insideUnitCircle * 0.3f;
+            Vector2 offset = (Vector2)leaderFish.transform.position + Random.insideUnitCircle * 0.3f;
             Vector2 desiredForce = Seek(offset);
+            desiredForce *= (dist > followDistance) ? 1.2f : 0.6f;
 
-            // small delay to look smoother
-            if (dist > followDistance)
-            {
-                desiredForce *= 1.2f;
-            }
-            else
-            {
-                desiredForce *= 0.6f;
-            }
-
-            // Align facing direction with leader
             Vector2 leaderDir = leaderFish.GetVelocity();
             if (leaderDir.sqrMagnitude > 0.01f)
             {
@@ -91,32 +76,25 @@ public class Fish : BoidAgent_P4
             return desiredForce + BoundaryAvoidance();
         }
 
-        // Leader normal behavior
-        Trash nearestTrashNormal = FindNearestTrash(5f);
+        // ------------------ Leader / Normal behavior ------------------
+        Trash nearestTrash = FindNearestTrash(5f);
         Vector2 steering = Vector2.zero;
 
-        if (nearestTrashNormal != null && Random.value < 0.5f)
-        {
-            steering += Seek(nearestTrashNormal.transform.position);
-        }
+        if (nearestTrash != null && Random.value < 0.5f)
+            steering += Seek(nearestTrash.transform.position);
         else
-        {
             steering += Wander();
-        }
 
         steering += BoundaryAvoidance();
-
         return Vector2.ClampMagnitude(steering, maxForce);
     }
-
-
 
     private Vector2 Wander()
     {
         wanderTarget += Random.insideUnitCircle * 0.5f;
         wanderTarget = wanderTarget.normalized * neighborRadius;
-        Vector2 targetPosition = (Vector2)transform.position + wanderTarget;
-        return Seek(targetPosition);
+        Vector2 targetPos = (Vector2)transform.position + wanderTarget;
+        return Seek(targetPos);
     }
 
     private Trash FindNearestTrash(float radius)
@@ -141,10 +119,13 @@ public class Fish : BoidAgent_P4
         return nearest;
     }
 
-    private Vector2 Flee(Vector2 threatPosition)
+    private Vector2 FleeFromSoundWave()
     {
-        Vector2 desired = ((Vector2)transform.position - threatPosition).normalized * maxSpeed;
-        return desired - velocity;
+        Vector2 fleeDir = (Vector2)transform.position - soundWaveOrigin;
+        if (fleeDir.sqrMagnitude < 0.01f)
+            fleeDir = Random.insideUnitCircle.normalized;
+
+        return fleeDir.normalized * maxSpeed - velocity;
     }
 
     private Vector2 BoundaryAvoidance()
@@ -152,45 +133,27 @@ public class Fish : BoidAgent_P4
         Vector2 pos = transform.position;
         Vector2 force = Vector2.zero;
 
-        if (pos.x < worldMin.x + boundaryPadding) 
-        {
-            force.x = boundaryForce;        
-        }
-
-        if (pos.x > worldMax.x - boundaryPadding) 
-        {
-            force.x = -boundaryForce;        
-        }
-
-        if (pos.y < worldMin.y + boundaryPadding) 
-        {
-            force.y = boundaryForce;        
-        }
-
-        if (pos.y > worldMax.y - boundaryPadding) 
-        { 
-            force.y = -boundaryForce;        
-        }
-
+        if (pos.x < worldMin.x + boundaryPadding) force.x = boundaryForce;
+        if (pos.x > worldMax.x - boundaryPadding) force.x = -boundaryForce;
+        if (pos.y < worldMin.y + boundaryPadding) force.y = boundaryForce;
+        if (pos.y > worldMax.y - boundaryPadding) force.y = -boundaryForce;
 
         return force;
     }
 
+    // ------------------ Trash contact ------------------
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (isScared) return; // ignore while scared
+        if (isScared) return;
 
-        if (collision.GetComponent<Trash>() != null)
+        Trash trash = collision.GetComponent<Trash>();
+        if (trash != null)
         {
             touchTimer += Time.deltaTime;
-
-            // Flash red on all sprite renderers
-            SetFishColor(Color.Lerp(normalColor, Color.red, Mathf.PingPong(Time.time * 10f, 1f)));
+            SetFishColor(Color.Lerp(defaultColors[0], Color.red, Mathf.PingPong(Time.time * 10f, 1f)));
 
             if (touchTimer >= deathTime)
-            {
                 Destroy(gameObject);
-            }
         }
     }
 
@@ -199,46 +162,53 @@ public class Fish : BoidAgent_P4
         if (collision.GetComponent<Trash>() != null)
         {
             touchTimer = 0f;
-            SetFishColor(normalColor);
+            SetFishColorDefault();
         }
     }
 
-    // called when hit by sound wave
+    // ------------------ Soundwave hit ------------------
     public void OnSoundWaveHit(Vector2 center)
     {
-        Debug.Log("Sound wave hit! Scared!");
         isScared = true;
         scaredTimer = 0f;
-        StartCoroutine(FlashYellow());
+        soundWaveOrigin = center;
 
-        // add a quick "burst" away from the wave center
-        Vector2 fleeForce = Flee(center) * 1.5f;
-        ApplyForce(fleeForce);
+        // Stop red flash
+        SetFishColorDefault();
+
+        // Start cyan flashing
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(FlashCyan());
     }
 
-    private IEnumerator FlashYellow()
+    private IEnumerator FlashCyan()
     {
         float timer = 0f;
         while (timer < scaredDuration)
         {
-            SetFishColor(Color.Lerp(normalColor, Color.yellow, Mathf.PingPong(Time.time * 10f, 1f)));
+            float t = Mathf.PingPong(Time.time * 10f, 1f);
+            Color flash = Color.Lerp(defaultColors[0], Color.cyan, t);
+            SetFishColor(flash);
             timer += Time.deltaTime;
             yield return null;
         }
-        SetFishColor(normalColor);
+        SetFishColorDefault();
+        isScared = false;
     }
 
-    // helper to set color on all SpriteRenderers
-    private void SetFishColor(Color color)
+    private void SetFishColor(Color c)
     {
         if (renderers == null) return;
-        foreach (SpriteRenderer r in renderers)
-        {
-            if (r != null) 
-            {
-                r.color = color;
-            }
-        }
+        foreach (var r in renderers)
+            if (r != null) r.color = c;
+    }
+
+    private void SetFishColorDefault()
+    {
+        if (renderers == null || defaultColors == null) return;
+        for (int i = 0; i < renderers.Length; i++)
+            if (renderers[i] != null) renderers[i].color = defaultColors[i];
     }
 }
+
 

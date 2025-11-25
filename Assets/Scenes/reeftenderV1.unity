@@ -1873,6 +1873,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 101217978098710182, guid: e1d6f5b398c016f4192fc2fd15d9e385, type: 3}
+      propertyPath: maxRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 101217978098710182, guid: e1d6f5b398c016f4192fc2fd15d9e385, type: 3}
+      propertyPath: expandSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 984899768834574818, guid: e1d6f5b398c016f4192fc2fd15d9e385, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2128,6 +2136,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7047679689075417427, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
+      propertyPath: maxRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7047679689075417427, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
+      propertyPath: expandSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7597750744590495085, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7855099633596915223, guid: 8955a54b66bb3c44db0a828a24ca8819, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2341,7 +2361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_margin.x
-      value: -279.7106
+      value: -676.038
       objectReference: {fileID: 0}
     - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_margin.y
@@ -2349,7 +2369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_margin.z
-      value: -293.45352
+      value: -684.6559
       objectReference: {fileID: 0}
     - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_lineSpacing
@@ -2358,6 +2378,10 @@ PrefabInstance:
     - target: {fileID: 1301290326437177485, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390289765884969303, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 17.81989
       objectReference: {fileID: 0}
     - target: {fileID: 1390289765884969303, guid: 21b52656976aae14194bbe0bbbadc2c2, type: 3}
       propertyPath: m_LocalScale.y
