@@ -107,18 +107,19 @@ public class GameManager : MonoBehaviour
         {
             infoText.gameObject.SetActive(true);
             infoText.text =
-                "ReefTender - Protect What Remains\n\n" +
-                "The reef you grew up beside is struggling. As part of a local restoration\n" +
-                "group, you patrol these waters to collect waste and safeguard the sea life\n" +
-                "that still thrives here. Every piece of trash you remove brings the reef\n" +
-                "one step closer to recovery.\n\n" +
+                "ReefTender – Protect What Remains\n\n" +
+                "The reef you grew up beside is in trouble. As part of a local restoration\n" +
+                "team, you patrol these waters to remove waste and protect the sea life that\n" +
+                "still survives here. Every piece of trash you recover brings the reef one\n" +
+                "step closer to recovery.\n\n" +
                 "CONTROLS\n" +
-                "Move with the mouse.\n" +
-                "Left-click to send out a pulse to steer fish away - fish will flash red and dies when touching trash\n" +
-                "Stay contact with trash to pick it up - trash will flash yellow during pick up.\n" +
-                "Touching fish captures them - this slows your boat and costs points if not released.\n" +
-                "Tap A and D rapidly to release captured fish.\n" +
-                "Press SPACE to start the mission.";
+                "• Lead the boat with mouse movement.\n" +
+                "• Left-click to send a sonar pulse that safely pushes fish away.\n" +
+                "• Stay in contact with trash to collect it (it flashes yellow during pickup).\n" +
+                "• Fish that touch trash will die, causing score loss — keep them away with sonar pulse.\n" +
+                "• Touching fish captures them — your boat slows and you gain a pending score penalty until the fish are released.\n" +
+                "• Mash A and D to release captured fish.\n" +
+                "Press SPACE to begin your mission.";
         }
 
         if (restartText != null)
@@ -401,7 +402,8 @@ public class GameManager : MonoBehaviour
 
         scoreText.text =
             "Score: " + (totalScore + levelScore).ToString("F2") +
-            "  Pending Penalty: - " + pendingFishPenalty.ToString("F2");
+            "  Pending Penalty: -" + pendingFishPenalty.ToString("F2") +
+            "\n  (Release fish to avoid losing these points.)";
     }
 }
 
