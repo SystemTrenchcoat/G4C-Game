@@ -795,7 +795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1008630350
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1962,14 +1962,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorText: {fileID: 1008630351}
   textOpacity: 1
-  textFadeDuration: 0.8
   boat: {fileID: 1742657534894383622}
-  tutorialFishPrefab: {fileID: 6871446512419404072, guid: 68c6d49953962404681650903dd28165, type: 3}
+  fishPrefab: {fileID: 6871446512419404072, guid: 68c6d49953962404681650903dd28165, type: 3}
   fishSpawnPoint: {fileID: 1190195834}
   trashPrefab: {fileID: 5978587054312404506, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
   trashSpawnPoint: {fileID: 1630001435}
   movementThresholdPerSecond: 0.5
-  movementSampleWindow: 0.4
+  movementSampleWindow: 5
+  stepAdvanceDelay: 5
 --- !u!4 &1974117890
 Transform:
   m_ObjectHideFlags: 0
