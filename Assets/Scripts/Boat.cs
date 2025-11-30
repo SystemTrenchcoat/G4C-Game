@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Boat : BoidAgent_P4
 {
+    [Header("References")]
     public GameObject soundWavePrefab;
-    [SerializeField] private float followStrength = 8f;
-    [SerializeField] private float damping = 5f;
-    [SerializeField] private float soundWaveCooldown = 1f;
     [SerializeField] private SoundWaveCooldownUI cooldownUI;
     private float nextSoundWaveTime = 0f;
 
-    // -----------------------
-    // Fish Catch + Mash
-    // -----------------------
+    [Header("Movement Settings")]
+    public float followStrength = 8f;
+    public float movementDamping = 0.05f;          // boat drifts slightly
+    [SerializeField] private float fullSpeedDistance = 3f; // distance where speed is max
+    [SerializeField] private float distanceFactorMultiplier = 2f; // controls U-curve steepness
+    [SerializeField] private float stopThreshold = 0.1f; // deadzone near mouse
+
     [Header("Fish Catch Settings")]
     public int maxCaughtFish = 5;
-    public float slowPerFish = 0.18f;
+    public float slowPerFish = 0.2f;               // slowdown per fish
     public int basePressNeeded = 6;
+    [SerializeField] private int additionalPressPerFish = 2;
+    [SerializeField] private float fishOffsetRange = 0.5f;
 
     public KeyCode key1 = KeyCode.A;
     public KeyCode key2 = KeyCode.D;
@@ -27,63 +30,74 @@ public class Boat : BoidAgent_P4
     private int pressCounter = 0;
     private List<Fish> caughtFish = new List<Fish>();
 
-    // speed multiplier
+    // ---------------- SPEED MULTIPLIER ----------------
     private float GetSpeedMultiplier()
     {
-        int fish = caughtFish.Count;
-
-        // clamps to avoid negative
-        fish = Mathf.Min(fish, 5);
-
-        // 1.0 at 0 fish, 0.01 at 5 fish
-        float mult = 1f - (0.99f * (fish / 5f)); // NEW
-
-        return mult;
+        float mult = 1f - (slowPerFish * caughtFish.Count);
+        return Mathf.Max(mult, 0.1f);
     }
 
+    public float GetSlowdownPercent()
+    {
+        return GetSpeedMultiplier() * 100f;
+    }
+
+    // ---------------- BOAT MOVEMENT ----------------
     protected override Vector2 CalculatedSteering()
     {
-        // adjust maxSpeed based on caught fish
         float speedMult = GetSpeedMultiplier();
         float adjustedMaxSpeed = maxSpeed * speedMult;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 desiredVelocity = (mousePos - (Vector2)transform.position).normalized * adjustedMaxSpeed;
+        Vector2 toMouse = mousePos - (Vector2)transform.position;
+        float distance = toMouse.magnitude;
 
+        // deadzone near mouse
+        if (distance < stopThreshold)
+        {
+            velocity *= 0.95f; // drift slightly
+            return Vector2.zero;
+        }
+
+        // distance-based easing with steepness control (U-curve)
+        float distanceRatio = distance / fullSpeedDistance;
+        float distanceFactor = Mathf.Clamp01(Mathf.Pow(distanceRatio, distanceFactorMultiplier));
+        float currentSpeed = adjustedMaxSpeed * distanceFactor;
+
+        Vector2 desiredVelocity = toMouse.normalized * currentSpeed;
         Vector2 steering = desiredVelocity - velocity;
         steering *= followStrength;
 
-        velocity = Vector2.Lerp(velocity, Vector2.zero, Time.deltaTime * damping);
+        // damping for natural boat feel
+        velocity *= (1f - movementDamping * Time.deltaTime);
 
         return Vector2.ClampMagnitude(steering, maxForce);
     }
 
+
+    // ---------------- UNITY METHODS ----------------
     private void Start()
     {
         if (cooldownUI != null)
-            cooldownUI.SetCooldownDuration(soundWaveCooldown);
+            cooldownUI.SetCooldownDuration(1f);
     }
 
     private void LateUpdate()
     {
-        // Soundwave right-click
         if (Input.GetMouseButtonDown(0) && Time.time >= nextSoundWaveTime)
         {
             Instantiate(soundWavePrefab, transform.position, Quaternion.identity);
-            nextSoundWaveTime = Time.time + soundWaveCooldown;
+            nextSoundWaveTime = Time.time + 1f;
 
             if (cooldownUI != null)
                 cooldownUI.StartCooldown();
         }
 
-        // Mash only active if fish caught
         if (caughtFish.Count > 0)
             HandleMash();
     }
 
-    // -----------------------
-    // Mash logic
-    // -----------------------
+    // ---------------- MASH LOGIC ----------------
     private void HandleMash()
     {
         bool pressed = false;
@@ -109,7 +123,7 @@ public class Boat : BoidAgent_P4
 
         if (!pressed) return;
 
-        int required = basePressNeeded + (caughtFish.Count * 2);
+        int required = basePressNeeded + (caughtFish.Count * additionalPressPerFish);
 
         if (pressCounter >= required)
         {
@@ -129,29 +143,26 @@ public class Boat : BoidAgent_P4
         fish.transform.SetParent(null);
         fish.transform.position = transform.position;
 
-        // restore fish behavior
         fish.enabled = true;
         fish.isLeader = false;
         fish.leaderFish = null;
 
         GameManager.instance.OnFishReleased();
+
+        // tutorial only notification
+        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialFish(fish))
+        {
+            TutorialManager.instance.OnFishReleased_Tutorial();
+        }
     }
 
-    // -----------------------
-    // Catching fish
-    // -----------------------
+    // ---------------- CATCHING FISH ----------------
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Fish fish = collision.GetComponent<Fish>();
         if (fish != null)
         {
             CatchFish(fish);
-            return;
-        }
-
-        Trash trash = collision.GetComponent<Trash>();
-        if (trash != null)
-        {
             return;
         }
     }
@@ -164,22 +175,20 @@ public class Boat : BoidAgent_P4
         fish.enabled = false;
         fish.transform.SetParent(transform);
         fish.transform.localPosition = new Vector3(
-            Random.Range(-0.5f, 0.5f),
-            Random.Range(-0.5f, 0.5f),
+            Random.Range(-fishOffsetRange, fishOffsetRange),
+            Random.Range(-fishOffsetRange, fishOffsetRange),
             0f
         );
 
         caughtFish.Add(fish);
-
         GameManager.instance.OnFishCaught();
     }
 
-    // -----------------------
-    // Public UI getters
-    // -----------------------
+    // ---------------- UI GETTERS ----------------
     public int GetCaughtFishCount() => caughtFish.Count;
     public int GetMashProgress() => pressCounter;
 }
+
 
 
 

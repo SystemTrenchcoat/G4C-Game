@@ -152,8 +152,11 @@ public class Fish : BoidAgent_P4
             touchTimer += Time.deltaTime;
             SetFishColor(Color.Lerp(defaultColors[0], Color.red, Mathf.PingPong(Time.time * 10f, 1f)));
 
-            if (touchTimer >= deathTime)
+            if (touchTimer >= deathTime) 
+            {
+                GameManager.instance?.OnFishDiedToTrash();
                 Destroy(gameObject);
+            }
         }
     }
 
@@ -177,21 +180,39 @@ public class Fish : BoidAgent_P4
         SetFishColorDefault();
 
         // Start cyan flashing
-        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
-        flashCoroutine = StartCoroutine(FlashCyan());
+        if (renderers != null && renderers.Length > 0 && defaultColors != null && defaultColors.Length > 0)
+        {
+            if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+            flashCoroutine = StartCoroutine(FlashCyan());
+        }
+
+        // tutorial only notification
+        if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialFish(this))
+        {
+            TutorialManager.instance.OnTutorialFishHitBySonar(this);
+        }
     }
 
     private IEnumerator FlashCyan()
     {
         float timer = 0f;
+
         while (timer < scaredDuration)
         {
             float t = Mathf.PingPong(Time.time * 10f, 1f);
-            Color flash = Color.Lerp(defaultColors[0], Color.cyan, t);
+
+            // Safe default color fallback
+            Color baseColor = (defaultColors != null && defaultColors.Length > 0)
+                ? defaultColors[0]
+                : Color.white;
+
+            Color flash = Color.Lerp(baseColor, Color.cyan, t);
             SetFishColor(flash);
+
             timer += Time.deltaTime;
             yield return null;
         }
+
         SetFishColorDefault();
         isScared = false;
     }

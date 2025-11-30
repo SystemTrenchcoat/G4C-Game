@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Agent_P4.cs" />
     <Compile Include="Assets\Scripts\Trash.cs" />
     <Compile Include="Assets\Scripts\ScoreManager.cs" />
+    <Compile Include="Assets\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\MouseFollower.cs" />
     <Compile Include="Assets\Scripts\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\BettaSpawner.cs" />

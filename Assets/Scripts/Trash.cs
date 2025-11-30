@@ -76,6 +76,13 @@ public class Trash : BoidAgent_P4
     private void FinishCollection()
     {
         GameManager.instance.OnTrashCollected();
+
+        // --- Tutorial integration (new) ---
+        if (TutorialManager.instance != null && TutorialManager.instance.CurrentStep == 4)
+        {
+            TutorialManager.instance.OnTrashCollected_Tutorial();
+        }
+
         Destroy(gameObject);
     }
 

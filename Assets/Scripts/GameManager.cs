@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     public float levelTimeLimit = 90f; // Changed: fixed 90 sec
     public int currentLevel = 1;
 
+    [Header("Tutorial")]
+    public bool tutorialEnabled = true; // tutorial runs after pressing Space once
+    public TutorialManager tutorialManager; // assign in inspector
+    private bool tutorialRunning = false; // internal state
+
     [Header("References")]
     public GameObject trashPrefab;
     public BettaSpawner spawner;
@@ -72,13 +77,35 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (tutorialRunning)
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                SkipTutorial();
+            }
+        }
+
         UpdateMashUI();
 
         switch (currentState)
         {
             case GameState.Start:
                 if (Input.GetKeyDown(KeyCode.Space))
-                    StartLevel(1);
+                {
+                    if (tutorialEnabled && tutorialManager != null)
+                    {
+                        StartTutorial();
+                    }
+                    else
+                    {
+                        if (tutorialManager != null) 
+                        {
+                            tutorialManager.ForceEndTutorial();
+                        }
+
+                        StartLevel(1);
+                    }
+                }
                 break;
 
             case GameState.Play:
@@ -129,6 +156,32 @@ public class GameManager : MonoBehaviour
             backgroundImage.SetActive(true);
     }
 
+    // ---------------- TUTORIAL ----------------
+    private void StartTutorial()
+    {
+        tutorialRunning = true;
+        Time.timeScale = 1f;
+
+        if (infoText != null) infoText.gameObject.SetActive(false);
+        if (backgroundImage != null) backgroundImage.SetActive(false);
+
+        // Hide other UI that shouldn't be on during tutorial
+        if (cooldownBarUI != null) cooldownBarUI.SetActive(false);
+        if (countdownText != null) countdownText.gameObject.SetActive(false);
+
+        tutorialManager.BeginTutorial(); // call into tutorial manager
+    }
+
+    private void SkipTutorial()
+    {
+        tutorialRunning = false;
+        tutorialEnabled = false;
+
+        tutorialManager.ForceEndTutorial(); // hide text, cleanup if needed
+
+        StartLevel(1); // start the real game
+    }
+
     // ---------------- LEVEL CONTROL ----------------
     private void StartLevel(int level)
     {
@@ -137,6 +190,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         if (infoText != null) infoText.gameObject.SetActive(false);
+
+        if (TutorialManager.instance != null)
+            TutorialManager.instance.DisableTutorText();
+
         if (backgroundImage != null) backgroundImage.SetActive(false);
 
         levelTimer = levelTimeLimit;
@@ -152,6 +209,33 @@ public class GameManager : MonoBehaviour
         {
             spawner.enabled = true;
             spawner.maxFishCount = 20;
+        }
+
+        if (boat != null)
+        {
+            // Get reference to the private caughtFish list using reflection
+            System.Reflection.FieldInfo caughtFishField = typeof(Boat).GetField("caughtFish", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (caughtFishField != null)
+            {
+                List<Fish> caughtFishList = (List<Fish>)caughtFishField.GetValue(boat);
+
+                // Release each fish manually
+                for (int i = 0; i < caughtFishList.Count; i++)
+                {
+                    Fish fish = caughtFishList[i];
+                    if (fish != null)
+                    {
+                        fish.enabled = true;
+                        fish.isLeader = false;
+                        fish.leaderFish = null;
+                        fish.transform.SetParent(null);
+                        fish.transform.position = boat.transform.position;
+                    }
+                }
+
+                // Clear the list
+                caughtFishList.Clear();
+            }
         }
 
         // Remove all fish from previous level   // Changed
@@ -318,8 +402,12 @@ public class GameManager : MonoBehaviour
 
         if (caughtText != null)
         {
+            float speedPercent = boat.GetSlowdownPercent();
+
             caughtText.gameObject.SetActive(true);
-            caughtText.text = "Fish Caught " + count + " / " + boat.maxCaughtFish;
+            caughtText.text =
+                "Fish Caught: " + count + "/" + boat.maxCaughtFish +
+                "   Speed Remaining: " + speedPercent.ToString("F0") + "%";
         }
 
         ShowMashKeys();
@@ -372,6 +460,16 @@ public class GameManager : MonoBehaviour
         UpdateScoreUI();
     }
 
+    public void OnFishDiedToTrash()
+{
+    // Immediate permanent penalty
+    float deathPenalty = 5f;  
+    levelScore -= deathPenalty;
+    if (levelScore < 0f) levelScore = 0f;
+
+    UpdateScoreUI();
+}
+
     public void OnFishCaught()
     {
         pendingFishPenalty += 2f; // Changed
@@ -402,8 +500,8 @@ public class GameManager : MonoBehaviour
 
         scoreText.text =
             "Score: " + (totalScore + levelScore).ToString("F2") +
-            "  Pending Penalty: -" + pendingFishPenalty.ToString("F2") +
-            "\n  (Release fish to avoid losing these points.)";
+            "  Marine life Stress Penalty: -" + pendingFishPenalty.ToString("F2") +
+            "\n  (Release fish to avoid penalty.)";
     }
 }
 
