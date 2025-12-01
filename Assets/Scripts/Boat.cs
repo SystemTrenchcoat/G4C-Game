@@ -30,6 +30,9 @@ public class Boat : BoidAgent_P4
     private int pressCounter = 0;
     private List<Fish> caughtFish = new List<Fish>();
 
+    public GameObject key1PromptSpr;
+    public GameObject key2PromptSpr;
+
     // ---------------- SPEED MULTIPLIER ----------------
     private float GetSpeedMultiplier()
     {
@@ -104,20 +107,28 @@ public class Boat : BoidAgent_P4
 
         if (expectingKey1)
         {
+            key1PromptSpr.SetActive(true);
+
             if (Input.GetKeyDown(key1))
             {
                 pressCounter++;
                 expectingKey1 = false;
                 pressed = true;
+                key1PromptSpr.SetActive(false);
+                key2PromptSpr.SetActive(true);
             }
         }
         else
         {
+            key2PromptSpr.SetActive(true);
+
             if (Input.GetKeyDown(key2))
             {
                 pressCounter++;
                 expectingKey1 = true;
                 pressed = true;
+                key2PromptSpr.SetActive(false);
+                key1PromptSpr.SetActive(true);
             }
         }
 
@@ -153,6 +164,12 @@ public class Boat : BoidAgent_P4
         if (TutorialManager.instance != null && TutorialManager.instance.IsTutorialFish(fish))
         {
             TutorialManager.instance.OnFishReleased_Tutorial();
+        }
+
+        if (caughtFish.Count == 0)
+        {
+            key1PromptSpr.SetActive(false);
+            key2PromptSpr.SetActive(false);
         }
     }
 
