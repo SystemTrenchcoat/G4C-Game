@@ -60,28 +60,28 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.38f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\keymashUI.cs" />
-    <Compile Include="Assets\TrashSpawner.cs" />
-    <Compile Include="Assets\Scripts\SoundWaveCooldownUI.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\GameStateVisual.cs" />
-    <Compile Include="Assets\Scripts\BoidAgent_P4.cs" />
-    <Compile Include="Assets\Scripts\SoundWave.cs" />
-    <Compile Include="Assets\Scripts\Agent.cs" />
-    <Compile Include="Assets\Scripts\Removal.cs" />
-    <Compile Include="Assets\Scripts\Fish.cs" />
-    <Compile Include="Assets\Scripts\Seeker.cs" />
-    <Compile Include="Assets\Scripts\Boat.cs" />
+    <Compile Include="Assets\Scripts\Player\SoundWave.cs" />
+    <Compile Include="Assets\Scripts\zzz_pressumably unimportant\Removal.cs" />
+    <Compile Include="Assets\Scripts\zzz_pressumably unimportant\MouseFollower.cs" />
+    <Compile Include="Assets\Scripts\Spawners\TrashSpawner.cs" />
+    <Compile Include="Assets\Scripts\UI\GameStateVisual.cs" />
+    <Compile Include="Assets\Scripts\UI\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Boids\Logic\Seeker.cs" />
+    <Compile Include="Assets\Scripts\UI\GameStateEnum.cs" />
+    <Compile Include="Assets\Scripts\UI\TutorialManager.cs" />
+    <Compile Include="Assets\Scripts\Spawners\BettaSpawner.cs" />
+    <Compile Include="Assets\Scripts\UI\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\destroySound.cs" />
-    <Compile Include="Assets\Scripts\Arriver.cs" />
-    <Compile Include="Assets\Scripts\GameStateEnum.cs" />
-    <Compile Include="Assets\Scripts\Agent_P4.cs" />
-    <Compile Include="Assets\Scripts\Trash.cs" />
-    <Compile Include="Assets\Scripts\ScoreManager.cs" />
-    <Compile Include="Assets\TutorialManager.cs" />
-    <Compile Include="Assets\Scripts\MouseFollower.cs" />
-    <Compile Include="Assets\Scripts\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\BettaSpawner.cs" />
+    <Compile Include="Assets\Scripts\Boids\Logic\Agent_P4.cs" />
+    <Compile Include="Assets\Scripts\UI\GameStateManager.cs" />
+    <Compile Include="Assets\Scripts\UI\SoundWaveCooldownUI.cs" />
+    <Compile Include="Assets\Scripts\Boids\Logic\Arriver.cs" />
+    <Compile Include="Assets\Scripts\Boids\Logic\Agent.cs" />
+    <Compile Include="Assets\Scripts\Boids\Fish.cs" />
+    <Compile Include="Assets\Scripts\UI\keymashUI.cs" />
+    <Compile Include="Assets\Scripts\Boids\Trash.cs" />
+    <Compile Include="Assets\Scripts\Boids\Logic\BoidAgent_P4.cs" />
+    <Compile Include="Assets\Scripts\Player\Boat.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
