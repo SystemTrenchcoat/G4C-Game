@@ -318,7 +318,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1175302696196623718, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2553048856385097472, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
       propertyPath: m_LocalScale.x
@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5978587054312404506, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
       propertyPath: m_Name
-      value: Rope Tangle Variant
+      value: Rope Tangle
       objectReference: {fileID: 0}
     - target: {fileID: 5978587054312404506, guid: 0b5286b0b2f9db04198ad7a19bbfea6f, type: 3}
       propertyPath: m_IsActive
