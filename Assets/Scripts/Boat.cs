@@ -177,7 +177,7 @@ public class Boat : BoidAgent_P4
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Fish fish = collision.GetComponent<Fish>();
-        if (fish != null)
+        if (fish != null && this.gameObject.GetComponent<Collider2D>().IsTouching(collision))
         {
             CatchFish(fish);
             return;

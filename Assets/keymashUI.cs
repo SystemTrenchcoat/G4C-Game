@@ -11,21 +11,19 @@ public class keymashUI : MonoBehaviour
     {
         transform.rotation = Quaternion.identity;
     }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Fish fish = collision.GetComponent<Fish>();
+        Fish fish = collision.gameObject.GetComponent<Fish>();
         if (fish != null)
         {
             wavePromptSpr.SetActive(true);
             return;
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Fish fish = collision.GetComponent<Fish>();
-        if (fish != null && fish.GetComponentInParent<Boat>() == null)
+        Fish fish = collision.gameObject.GetComponent<Fish>();
+        if (fish != null)
         {
             wavePromptSpr.SetActive(false);
             return;
