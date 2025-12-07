@@ -67,11 +67,21 @@ public class Tutorial : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Fish fish = collision.gameObject.GetComponent<Fish>();
+        //Sonar Tutorial Start
         if (sonarTut)
         {
+            Fish fish = collision.gameObject.GetComponent<Fish>();
             if (fish != null)   return;
 
+            ShowText("Left-click to scare the fish away with sonar.");
         }
+        //Sonar Tutorial End
+
+        //Release Tutorial Start
+        if (releaseTut && gameObject.transform.parent.GetComponentInChildren<Fish>())
+        {
+            ShowText("Fish can be caught if the boat touches them. Alternate A and D keys to release the fish.");
+        }
+        //Release Tutorial End;
     }
 }
