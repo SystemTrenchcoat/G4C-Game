@@ -9,6 +9,8 @@ public class Tutorial : MonoBehaviour
     private Vector2 currentPos;
     private Vector2 previousPos;
 
+    private bool sonarUsed = false;
+
     //Timers
     private float tutDelay = 2.4f;
     private float moveTimer = 0;
@@ -25,6 +27,7 @@ public class Tutorial : MonoBehaviour
     private bool sonarTut = true;
     private bool releaseTut = true;
     private bool trashTut = true;
+    private bool trashInfo = true;
 
     // Start is called before the first frame update
     void Start()
@@ -44,12 +47,23 @@ public class Tutorial : MonoBehaviour
             moveTimer += Time.deltaTime;
 
         if (moveTimer >= tutDelay && moveTut)
-        {
             ShowText("Move your mouse to steer the boat.");
-        }
         //Move Tutorial End
 
+        //Release Tutorial Start
+        if (releaseTut && gameObject.transform.parent.GetComponent<Boat>().releasedFish)
+            releaseTut = false;
+        //Release Tutorial End;
 
+        //Trash Tutorial Start
+        if(!trashTut && trashInfo)
+        {
+            ShowText("According to a 2023 research paper, much of the plastic in the coral reefs is the result of fishing");
+            trashTimer += Time.deltaTime;
+
+            if(trashTimer >= tutDelay)
+                trashInfo = false;
+        }
     }
 
     private void ShowText(string text)
@@ -71,7 +85,7 @@ public class Tutorial : MonoBehaviour
         if (sonarTut)
         {
             Fish fish = collision.gameObject.GetComponent<Fish>();
-            if (fish != null)   return;
+            if (fish != null) return;
 
             ShowText("Left-click to scare the fish away with sonar.");
         }
@@ -79,9 +93,40 @@ public class Tutorial : MonoBehaviour
 
         //Release Tutorial Start
         if (releaseTut && gameObject.transform.parent.GetComponentInChildren<Fish>())
-        {
             ShowText("Fish can be caught if the boat touches them. Alternate A and D keys to release the fish.");
-        }
         //Release Tutorial End;
+
+        //Trash Tutorial Start
+        if (trashTut)
+        {
+            Trash trash = collision.gameObject.GetComponent<Trash>();
+            if (trash != null) return;
+
+            ShowText("Sail over the trash for a few moments to collect it");
+        }
+        //Trash Tutorial End
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //Sonar Tutorial Start
+        if (sonarTut)
+        {
+            SoundWave sonar = collision.gameObject.GetComponent<SoundWave>();
+            if (sonar != null) return;
+
+            sonarTut = false;
+        }
+        //Sonar Tutorial End
+
+        //Trash Tutorial Start
+        if (trashTut)
+        {
+            Trash trash = collision.gameObject.GetComponent<Trash>();
+            if (trash != null) return;
+
+            trashTut = false;
+        }
+        //Trash Tutorial End
     }
 }

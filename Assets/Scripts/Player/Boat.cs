@@ -33,6 +33,8 @@ public class Boat : BoidAgent_P4
     public GameObject key1PromptSpr;
     public GameObject key2PromptSpr;
 
+    public bool releasedFish = false;
+
     // ---------------- SPEED MULTIPLIER ----------------
     private float GetSpeedMultiplier()
     {
@@ -171,6 +173,9 @@ public class Boat : BoidAgent_P4
             key1PromptSpr.SetActive(false);
             key2PromptSpr.SetActive(false);
         }
+
+        if(!releasedFish)
+            releasedFish = true;
     }
 
     // ---------------- CATCHING FISH ----------------
