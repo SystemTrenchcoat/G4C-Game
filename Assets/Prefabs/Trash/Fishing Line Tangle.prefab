@@ -412,7 +412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4567683160054065527
 Transform:
   m_ObjectHideFlags: 0
@@ -548,6 +548,7 @@ MonoBehaviour:
   separationWeight: 1.5
   alignmentWeight: 1
   cohesionWeight: 1
+  collectDuration: 3
 --- !u!50 &3720477703643519171
 Rigidbody2D:
   serializedVersion: 4

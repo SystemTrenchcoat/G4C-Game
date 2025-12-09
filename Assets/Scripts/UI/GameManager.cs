@@ -94,7 +94,8 @@ public class GameManager : MonoBehaviour
                 {
                     if (tutorialEnabled && tutorialManager != null)
                     {
-                        StartTutorial();
+
+                        StartLevel(1);
                     }
                     else
                     {
@@ -287,6 +288,7 @@ public class GameManager : MonoBehaviour
 
     private void EndLevel()
     {
+        Debug.Log("End Level");
         levelActive = false;
         Time.timeScale = 0f;
 

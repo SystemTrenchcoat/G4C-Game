@@ -80,7 +80,7 @@ public class BettaSpawner : MonoBehaviour
         }
 
         packsAssigned = true;
-        Debug.Log($"Assigned {packs.Count} fish packs");
+        //Debug.Log($"Assigned {packs.Count} fish packs");
     }
 
 

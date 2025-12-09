@@ -12,7 +12,7 @@ public class Tutorial : MonoBehaviour
     //Timers
     private float tutDelay = 2.4f;
     private float moveTimer = 0;
-    //private float sonarTimer = 0;
+    private float sonarTimer = 0;
     //private float releaseTimer = 0;
     private float trashTimer = 0;
 
@@ -38,19 +38,20 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         //Debugging Start
-        Debug.Log("Move: " + moveTut);
-        Debug.Log("Sonar: " + sonarTut);
-        Debug.Log("Release: " + releaseTut);
-        Debug.Log("Trash: " + trashTut);
-        Debug.Log("Trash Info: " + trashInfo);
+        //Debug.Log("Move: " + moveTut);
+        //Debug.Log("Sonar: " + sonarTut);
+        //Debug.Log("Release: " + releaseTut);
+        //Debug.Log("Trash: " + trashTut);
+        //Debug.Log("Trash Info: " + trashInfo);
         //Debugging End
 
         //Move Tutorial Start
         previousPos = currentPos;
         currentPos = transform.position;
 
-        if (currentPos != previousPos)
+        if (Vector2.Distance(currentPos, previousPos) >= .02f)
         {
+            //Debug.Break();
             EmptyText();
             moveTut = false;
         }
@@ -62,23 +63,41 @@ public class Tutorial : MonoBehaviour
             ShowText("Move your mouse to steer the boat.");
         //Move Tutorial End
 
+        if(!sonarTut)
+        {
+            sonarTimer += Time.deltaTime;
+
+            if (sonarTimer >= tutDelay)
+                EmptyText();
+        }
+
         //Release Tutorial Start
         if (releaseTut && gameObject.transform.parent.GetComponent<Boat>().releasedFish){
+            Debug.Log(gameObject.transform.parent.GetComponent<Boat>().releasedFish);
             EmptyText();
             releaseTut = false;
         }
         //Release Tutorial End;
 
         //Trash Tutorial Start
-        if(!trashTut && trashInfo)
+        if(!trashTut)
         {
-            ShowText("According to a 2023 research paper, much of the plastic in the coral reefs is the result of fishing");
             trashTimer += Time.deltaTime;
 
             if(trashTimer >= tutDelay)
             {
-                EmptyText();
-                trashInfo = false;
+                if (trashInfo)
+                {
+                    ShowText("According to a 2023 research paper, much of the plastic in the coral reefs is the result of fishing");
+                    trashTimer += Time.deltaTime;
+
+                    if (trashTimer >= tutDelay * 2)
+                    {
+                        //Debug.Break();
+                        EmptyText();
+                        trashInfo = false;
+                    }
+                }
             }
         }
     }
@@ -89,51 +108,56 @@ public class Tutorial : MonoBehaviour
         if (sonarTut)
         {
             Fish fish = collision.gameObject.GetComponent<Fish>();
-            if (fish != null) return;
+            if (fish == null) return;
 
             ShowText("Left-click to scare the fish away with sonar.");
+            sonarTut = false;
         }
 
 
         if (sonarTut)
         {
             SoundWave sonar = collision.gameObject.GetComponent<SoundWave>();
-            if (sonar != null) return;
+            if (sonar == null) return;
 
+            //Debug.Break();
             EmptyText();
             sonarTut = false;
         }
         //Sonar Tutorial End
 
         //Release Tutorial Start
-        if (releaseTut && gameObject.transform.parent.GetComponentInChildren<Fish>())
-            ShowText("Fish can be caught if the boat touches them. Alternate A and D keys to release the fish.");
+        if (releaseTut && gameObject.transform.parent.GetComponentInChildren<Boat>().fishCaught)
+            ShowText("Fish are caught if the boat touches them. Alternate A and D keys to release the fish.");
         //Release Tutorial End;
 
         //Trash Tutorial Start
         if (trashTut)
         {
             Trash trash = collision.gameObject.GetComponent<Trash>();
-            if (trash != null) return;
+            if (trash == null) return;
 
+            Debug.Log("Trash Tut Display!");
             ShowText("Sail over the trash for a few moments to collect it");
-        }
-        //Trash Tutorial End
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //Trash Tutorial Start
-        if (trashTut)
-        {
-            Trash trash = collision.gameObject.GetComponent<Trash>();
-            if (trash != null) return;
-
-            EmptyText();
             trashTut = false;
         }
         //Trash Tutorial End
     }
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    //Trash Tutorial Start
+    //    if (trashTut)
+    //    {
+    //        Trash trash = collision.gameObject.GetComponent<Trash>();
+    //        if (trash == null) return;
+
+    //        //Debug.Break();
+    //        EmptyText();
+    //        trashTut = false;
+    //    }
+    //    //Trash Tutorial End
+    //}
 
     private void ShowText(string text)
     {
@@ -152,4 +176,6 @@ public class Tutorial : MonoBehaviour
     {
         ShowText("");
     }
+
+    
 }

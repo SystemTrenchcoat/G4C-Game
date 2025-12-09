@@ -33,6 +33,7 @@ public class Boat : BoidAgent_P4
     public GameObject key1PromptSpr;
     public GameObject key2PromptSpr;
 
+    public bool fishCaught = false;
     public bool releasedFish = false;
 
     // ---------------- SPEED MULTIPLIER ----------------
@@ -182,8 +183,9 @@ public class Boat : BoidAgent_P4
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Fish fish = collision.GetComponent<Fish>();
-        if (fish != null && this.gameObject.GetComponent<Collider2D>().IsTouching(collision))
+        if (fish != null && gameObject.GetComponent<Collider2D>().IsTouching(collision))
         {
+            fishCaught = true;
             CatchFish(fish);
             return;
         }

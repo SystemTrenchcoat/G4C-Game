@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class TrashSpawner : MonoBehaviour
 {
-    public GameObject trashPrefab; // assign in inspector
+    public List<GameObject> trashPrefabs; // assign in inspector
     public float minDistance = 1.0f; // how far apart trash must be
 
     private List<GameObject> spawnedTrash = new List<GameObject>();
+
+    private GameObject ChooseTrash()
+    {
+        return trashPrefabs[Random.Range(0, trashPrefabs.Count)];
+    }
 
     // Spawn trash for ONE level
     public void SpawnTrash(int count)
@@ -20,9 +25,13 @@ public class TrashSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
+            Debug.Log("Trash!");
+
             Vector2 pos = GetValidTrashSpawnPosition(camWidth, camHeight, cam);
-            GameObject obj = Instantiate(trashPrefab, pos, Quaternion.identity);
+            GameObject obj = Instantiate(ChooseTrash(), pos, Quaternion.identity);
             obj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+
+            Debug.Log(obj);
 
             spawnedTrash.Add(obj);
         }
