@@ -25,13 +25,13 @@ public class TrashSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            Debug.Log("Trash!");
+            //Debug.Log("Trash!");
 
             Vector2 pos = GetValidTrashSpawnPosition(camWidth, camHeight, cam);
             GameObject obj = Instantiate(ChooseTrash(), pos, Quaternion.identity);
             obj.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
-            Debug.Log(obj);
+            //Debug.Log(obj);
 
             spawnedTrash.Add(obj);
         }
