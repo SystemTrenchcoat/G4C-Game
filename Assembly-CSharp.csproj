@@ -71,8 +71,8 @@
     <Compile Include="Assets\Scripts\UI\GameStateEnum.cs" />
     <Compile Include="Assets\Scripts\Spawners\BettaSpawner.cs" />
     <Compile Include="Assets\Scripts\UI\ScoreManager.cs" />
+    <Compile Include="Assets\Scripts\UI\destroySound.cs" />
     <Compile Include="Assets\Scripts\UI\Tutorial\PlayerTutorialManager.cs" />
-    <Compile Include="Assets\Scripts\destroySound.cs" />
     <Compile Include="Assets\Scripts\Boids\Logic\Agent_P4.cs" />
     <Compile Include="Assets\Scripts\UI\GameStateManager.cs" />
     <Compile Include="Assets\Scripts\UI\SoundWaveCooldownUI.cs" />
